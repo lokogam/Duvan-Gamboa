@@ -102,7 +102,8 @@ export default function Contact() {
         </div>
 
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"> */}
+          <div className="grid grid-cols-1 gap-8">
             {/* Formulario */}
             <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
               <form onSubmit={handleSubmit}>
@@ -216,7 +217,7 @@ export default function Contact() {
             </div>
 
             {/* Información de Contacto */}
-            <div className="space-y-8">
+            {/* <div className="space-y-8">
               <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-6">
                   {content.contactInfo}
@@ -350,7 +351,7 @@ export default function Contact() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

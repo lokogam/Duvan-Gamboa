@@ -96,6 +96,9 @@ export default function Footer() {
               ))}
             </div>
           </div>
+          <div>
+            
+          </div>
 
           {/* Columna 2: Enlaces rápidos */}
           <div>
@@ -117,7 +120,7 @@ export default function Footer() {
           </div>
 
           {/* Columna 3: Contacto */}
-          <div>
+          {/* <div>
             <h3 className="text-xl font-semibold text-white mb-4">
               {content.contactTitle}
             </h3>
@@ -161,7 +164,7 @@ export default function Footer() {
                 <span>Colombia</span>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         {/* Divider */}

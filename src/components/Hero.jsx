@@ -33,7 +33,10 @@ export default function Hero() {
           {/* Reemplaza profile.jpg con tu imagen (600x600 px para mejor calidad). */}
           <div className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0">
             <img
-              src="/profile.jpg" // Reemplaza con tu imagen
+              // src="./profile.jpg"
+              // src="Duvan-Gamboa/profile.jpg"
+              src={`${import.meta.env.VITE_BASE_URL}/profile.jpg`}
+              // Reemplaza con tu imagen
               alt="Duvan Gamboa"
               className="w-full h-full object-cover rounded-full border-4 border-white/20 shadow-xl hover:scale-105 transition-transform"
             />
@@ -54,18 +57,19 @@ export default function Hero() {
             {/* Botones principales */}
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-8">
               <a
-                href={language === "es" ? "/cv-duvan-gamboa-ES.pdf" : "/cv-duvan-gamboa-EN.pdf"}
+                // href={language === "es" ? "/cv-duvan-gamboa-ES.pdf" : "/cv-duvan-gamboa-EN.pdf"}
+                href={`${import.meta.env.BASE_URL}${language === "es" ? "/cv-duvan-gamboa-ES.pdf" : "/cv-duvan-gamboa-EN.pdf"}`}
                 download
                 className="px-6 py-3 bg-white dark:bg-blue-700 text-blue-600 dark:text-white hover:bg-gray-100 dark:hover:bg-blue-600 font-medium rounded-lg shadow-md hover:shadow-lg transition-all"
               >
                 {content.ctaPrimary}
               </a>
-              <a
+              {/* <a
                 href="#projects"
                 className="px-6 py-3 bg-transparent border-2 border-white text-white hover:bg-white/10 font-medium rounded-lg shadow-md hover:shadow-lg transition-all"
               >
                 {content.ctaSecondary}
-              </a>
+              </a> */}
             </div>
 
             {/* Contacto rápido */}

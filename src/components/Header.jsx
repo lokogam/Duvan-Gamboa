@@ -8,7 +8,7 @@ export default function Header({ toggleDark, darkMode }) {
   const navLinks = [
     { name: language === 'es' ? 'Inicio' : 'Home', href: '#hero' },
     { name: language === 'es' ? 'Sobre mí' : 'About', href: '#about' },
-    { name: language === 'es' ? 'Proyectos' : 'Projects', href: '#projects' },
+    // { name: language === 'es' ? 'Proyectos' : 'Projects', href: '#projects' },
     { name: language === 'es' ? 'Habilidades' : 'Skills', href: '#skills' },
     { name: language === 'es' ? 'Contacto' : 'Contact', href: '#contact' },
   ];

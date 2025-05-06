@@ -82,11 +82,11 @@ export default function Skills() {
 
   // Habilidades agrupadas por categoría
   const skills = {
-    languages: ["PHP", "JavaScript", "Python", "Java", "SQL", "C#", "Kotlin", "TypeScript", ".NET"],
-    frameworks: ["Laravel", "React", "Node.js", "Django", "CodeIgniter","Spring Boot",  "Vue.js", "Angular", "FastAPI",  "Next.js"],
-    databases: ["MySQL", "PostgreSQL", "MongoDB", "SQLite", "Redis", "MariaDB",  "SQL Server"],
-    devops: ["Docker", "AWS (S3, Lambda)", "Git", "CI/CD", "GitHub Actions", "Azure DevOps"],
-    design: ["Figma", "Adobe XD", "Tailwind CSS", "Bootstrap", "jQuery", "HTML", "CSS", ],
+    languages: ["PHP", "JavaScript", , "Java", "SQL",  "TypeScript", "Python"],
+    frameworks: ["Laravel", "React", "Node.js",  "Vue.js",  "Next.js"],
+    databases: ["MySQL",  "MongoDB", "Redis", ],
+    devops: ["Docker",  "Git", "GitHub Actions" ],
+    design: [ "Tailwind CSS", "Bootstrap", "jQuery", "HTML", "CSS", ],
     other: ["APIs RESTful", "Linux", 'Scrum',"JSON" ],
   };
 
@@ -147,7 +147,7 @@ export default function Skills() {
         </div>
 
         {/* Certificaciones */}
-        <div className="max-w-4xl mx-auto">
+        {/* <div className="max-w-4xl mx-auto">
           <h3 className="text-xl font-semibold mb-6 text-gray-800 dark:text-white">
             {content.certificationsTitle}
           </h3>
@@ -185,7 +185,7 @@ export default function Skills() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

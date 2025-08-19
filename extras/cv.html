@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duvan Andres Gamboa Guiza - CV</title>
+    <style>
+        :root {
+            --primary-color: #1f2937;
+            --secondary-color: #374151;
+            --text-color: #111827;
+            --light-bg: #f9fafb;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border-radius: 0.5rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info p {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--secondary-color);
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background: white;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .list-item::before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .certifications-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .certifications-column {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .certifications-column h3 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .print-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media print {
+            body {
+                background: white;
+                font-size: 10pt;
+                line-height: 1.3;
+            }
+
+            .container {
+                margin: 0;
+                padding: 0.5cm;
+                box-shadow: none;
+                max-width: 100%;
+            }
+
+            .print-button {
+                display: none;
+            }
+
+            .section {
+                break-inside: avoid;
+                margin-bottom: 0.5cm;
+                padding: 0.3cm;
+            }
+
+            .contact-info {
+                background: none;
+                margin-bottom: 0.5cm;
+                padding: 0.3cm;
+            }
+
+            .header {
+                padding: 0.5cm 0;
+                margin-bottom: 0.5cm;
+            }
+
+            .header h1 {
+                font-size: 18pt;
+                margin-bottom: 0.2cm;
+            }
+
+            .header h2 {
+                font-size: 14pt;
+            }
+
+            .section h2 {
+                font-size: 12pt;
+                margin-bottom: 0.3cm;
+                padding-bottom: 0.2cm;
+            }
+
+            .section h3 {
+                font-size: 11pt;
+                margin: 0.3cm 0;
+            }
+
+            .list-item {
+                margin-bottom: 0.2cm;
+                padding-left: 0.5cm;
+            }
+
+            .certifications-section {
+                gap: 0.5cm;
+            }
+
+            .certifications-column {
+                padding: 0.3cm;
+            }
+
+            .certifications-column h3 {
+                font-size: 11pt;
+                margin-bottom: 0.3cm;
+            }
+
+            p {
+                margin-bottom: 0.3cm;
+            }
+
+            ul {
+                margin-bottom: 0.3cm;
+            }
+
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Duvan Andres Gamboa Guiza</h1>
+            <h2>Desarrollador Software</h2>
+        </div>
+
+        <div class="contact-info">
+            <p><strong>Teléfono:</strong> +57 3156334898</p>
+            <p><strong>Email:</strong> duvangamboa8@gmail.com</p>
+            <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/duvan-gamboa-5193951b2">Duvan Gamboa</a></p>
+            <p><strong>Portfolio:</strong> <a href="https://bit.ly/Duvan-Gamboa">bit.ly/Duvan-Gamboa</a></p>
+            <p><strong>Ubicación:</strong> Colombia</p>
+        </div>
+
+        <div class="section">
+            <h2>Perfil Profesional</h2>
+            <p>
+                Tecnólogo en Análisis y Desarrollo de Sistemas de Información con más de 3 años de experiencia desarrollando soluciones web y móviles. 
+                Experto en PHP, Laravel, JavaScript, React, Vue.js y MySQL. 
+                He liderado proyectos que optimizan procesos operativos mediante APIs RESTful y arquitecturas modernas. 
+                Busco impactar con soluciones backend y cloud computing en equipos ágiles y multidisciplinarios.
+            </p>
+            <p>
+                Actualmente resido en Vélez, Santander, y tengo total disponibilidad para cambiar de residencia. 
+                He trabajado más de 6 meses en la ciudad de Bogotá y más de un año en Medellín, además de haber trabajado desde casa el último año.
+                Estoy dispuesto a trabajar como freelancer, en modalidad remota, híbrida o presencial.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Experiencia Laboral</h2>
+
+            <h3>Desarrollador Semisenior, LinkTIC, Remoto</h3>
+            <p><em>Agosto 2024 - Enero 2025</em></p>
+            <ul>
+                <li class="list-item">Desarrollé y mantuve aplicaciones utilizando diversas tecnologías como PHP, Java, y Docker, trabajando de manera remota.</li>
+                <li class="list-item">Participé en el desarrollo y actualización de aplicaciones móviles multiplataforma utilizando Xamarin.</li>
+                <li class="list-item">Analicé requerimientos asignados y desarrollé componentes siguiendo buenas prácticas de desarrollo.</li>
+                <li class="list-item">Realicé optimización de consultas y mantenimiento de bases de datos SQL y MySQL.</li>
+            </ul>
+
+            <h3>Desarrollador software, Wescreativo, Medellín/Remoto</h3>
+            <p><em>Julio 2022 - Mayo 2024</em></p>
+            <ul>
+                <li class="list-item">Utilicé Laravel y React con Inertia para desarrollar características importantes del proyecto.</li>
+                <li class="list-item">Trabajé en estrecha colaboración con un equipo de desarrolladores y diseñadores.</li>
+                <li class="list-item">Implementé pruebas automatizadas y mantuve la documentación actualizada.</li>
+                <li class="list-item">Trabajé con Node.js, Tailwind CSS, WordPress, TypeScript, Docker, Git, y servicios cloud.</li>
+            </ul>
+
+            <h3>Desarrollador de Software, Indoamericana, Bogotá</h3>
+            <p><em>Noviembre 2021 - Mayo 2022</em></p>
+            <ul>
+                <li class="list-item">Desarrollé y mantuve aplicaciones web utilizando PHP y JavaScript.</li>
+                <li class="list-item">Implementé consultas y optimizaciones en bases de datos MySQL.</li>
+                <li class="list-item">Utilicé Git y GitHub para la gestión de versiones.</li>
+                <li class="list-item">Trabajé con PHP, JavaScript, MySQL, Git, WordPress, Vue y Laravel.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Habilidades</h2>
+            <ul>
+                <li class="list-item"><strong>Lenguajes:</strong> Python, PHP, JavaScript, Java, SQL, C#, TypeScript, Dart, Node.js</li>
+                <li class="list-item"><strong>Tecnologías en la nube:</strong> AWS (Lambda, S3, IAM), DigitalOcean, Azure, Firebase</li>
+                <li class="list-item"><strong>Frameworks:</strong> Laravel, Vue.js, React, CodeIgniter, Django, Next.js, .Net core</li>
+                <li class="list-item"><strong>Bases de datos:</strong> MySQL, NoSQL, PostgreSQL, MongoDB, Redis</li>
+                <li class="list-item"><strong>Control de versiones:</strong> Git, GitHub, GitHub Actions</li>
+                <li class="list-item"><strong>Tecnologías web:</strong> HTML, CSS, Bootstrap, jQuery, Tailwind CSS</li>
+                <li class="list-item"><strong>Otros:</strong> APIs RESTful, Docker, Linux, Postman, Swagger, Nginx, Apache</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Educación</h2>
+            <ul>
+                <li class="list-item"><strong>Tecnólogo en Análisis y Desarrollo de Sistemas de Información</strong> - SENA, Vélez / Santander - <em>Marzo 2020 - Octubre 2022</em></li>
+                <li class="list-item"><strong>Actualmente estudiando Inglés</strong> - Smart Academia de Idiomas</li>
+                <li class="list-item"><strong>Actualmente estudiante de ingeniería de sistemas</strong> - UNAD</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Logros</h2>
+            <p>
+                <strong>Becado por Platzi:</strong> Fui seleccionado como becario en Platzi tras destacar en el desafío de Solidity con CELO. 
+                Durante este proceso, resolví problemas complejos, adquirí nuevas técnicas de desarrollo y completé todas las tareas asignadas, 
+                demostrando un alto nivel de compromiso y aprendizaje continuo.
+            </p>
+        </div>
+
+        <div class="section certifications">
+            <h2>Certificaciones</h2>
+            <div class="certifications-section">
+                <div class="certifications-column">
+                    <h3>SENA</h3>
+                    <ul>
+                        <li class="list-item">Variables y Estructuras de Control en Programación Orientada a Objetos: Java</li>
+                        <li class="list-item">Desarrollo de Aplicaciones con Interfaz Gráfica: Java</li>
+                        <li class="list-item">Desarrollo de Aplicaciones con Manejo de Datos en Memoria: Java</li>
+                        <li class="list-item">Desarrollo de Habilidades Digitales para la Gestión de Información</li>
+                        <li class="list-item">Análisis para el Desarrollo Móvil con App Inventor</li>
+                    </ul>
+
+                    <h3>LinkedIn</h3>
+                    <ul>
+                        <li class="list-item">Integración HTML y CSS Esencial</li>
+                        <li class="list-item">Fundamentos de Programación: Diseño Orientado a Objetos</li>
+                        <li class="list-item">GitHub para Desarrolladores</li>
+                        <li class="list-item">HTML Esencial</li>
+                    </ul>
+
+                    <h3>Coursera</h3>
+                    <ul>
+                        <li class="list-item">Cómo resolver problemas y tomar decisiones con eficacia (University of California, Irvine)</li>
+                        <li class="list-item">Data Analysis with Python (IBM)</li>
+                    </ul>
+                </div>
+
+                <div class="certifications-column">
+                    <h3>Platzi</h3>
+                    <ul>
+                        <li class="list-item">Frontend con React.js <strong>(Platzi carrera)</strong></li>
+                        <li class="list-item">Desarrollo Web Backend con PHP <strong>(Platzi carrera)</strong></li>
+                        <li class="list-item">JavaScript Práctico y Profesional</li>
+                        <li class="list-item">Curso de PHP Laravel</li>
+                        <li class="list-item">Laravel SPA y Avanzado</li>
+                        <li class="list-item">PHP Avanzado</li>
+                        <li class="list-item">Vue Avanzado y Profesional</li>
+                        <li class="list-item">Git y GitHub</li>
+                        <li class="list-item">Economía Digital y Blockchain</li>
+                        <li class="list-item">Fundamentos de Arquitectura de Software</li>
+                        <li class="list-item">Java SE Orientado a Objetos</li>
+                        <li class="list-item">Introducción a Solidity y Celo</li>
+                        <li class="list-item">Curso de Docker</li>
+                        <li class="list-item">Angular: Creación de Aplicaciones Web</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Idiomas</h2>
+            <ul>
+                <li class="list-item"><strong>Español:</strong> Nativo</li>
+                <li class="list-item"><strong>Inglés:</strong> Competente (A2)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Información Adicional</h2>
+            <ul>
+                <li class="list-item">Actualmente curso un programa de inglés en la Smart Academia de Idiomas.</li>
+                <li class="list-item">Cursando la carrera de Ingeniería de Sistemas en la UNAD (40% completado).</li>
+                <li class="list-item">Apasionado por el código limpio y las mejores prácticas en desarrollo de software.</li>
+                <li class="list-item">Aprendiz rápido con fuertes habilidades para resolver problemas.</li>
+                <li class="list-item">Disponible para arreglos de trabajo híbrido y viajes ocasionales a Medellín, Bogotá, Bucaramanga, Tunja.</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">Guardar como PDF</button>
+</body>
+</html> 

@@ -13,17 +13,43 @@ export default function About() {
     profileText:
       language === "es"
         ? `🚀 Tecnólogo en Desarrollo de Software con experiencia en Laravel, Node.js, Vue, React y tecnologías Cloud e Inteligencia Artificial. Transformo ideas en soluciones digitales escalables que impulsan la eficiencia operativa y la innovación.
-💡 Desarrollo aplicaciones web optimizadas, automatizo procesos y creo APIs RESTful eficientes para integrar sistemas y mejorar la experiencia de usuario.
-🔥 Apasionado por la convergencia entre backend, cloud computing e IA, buscando siempre liderar proyectos transformadores con alto impacto técnico y social.`
+        💡 Desarrollo aplicaciones web optimizadas, automatizo procesos y creo APIs RESTful eficientes para integrar sistemas y mejorar la experiencia de usuario.
+        🔥 Apasionado por la convergencia entre backend, cloud computing e IA, buscando siempre liderar proyectos transformadores con alto impacto técnico y social.`
         : `🚀 Software Technologist with experience in Laravel, Node.js, Vue, React, and Cloud & AI technologies. I transform ideas into scalable digital solutions that drive operational efficiency and innovation.
-💡 I develop optimized web applications, automate processes, and build efficient RESTful APIs to integrate systems and enhance user experience.
-🔥 Passionate about the convergence of backend, cloud computing, and AI, always looking to lead high-impact and transformative projects.`,
+        💡 I develop optimized web applications, automate processes, and build efficient RESTful APIs to integrate systems and enhance user experience.
+        🔥 Passionate about the convergence of backend, cloud computing, and AI, always looking to lead high-impact and transformative projects.`,
     experienceTitle:
       language === "es" ? "Experiencia Laboral" : "Work Experience",
     educationTitle: language === "es" ? "Educación" : "Education",
   };
 
   const experiences = [
+    {
+      role: language === "es" ? "Desarrollador Backend" : "Backend Developer",
+      company: "Grupo Alianza - Gestión Efectiva del Talento Humano",
+      period:
+        language === "es"
+          ? "jun. 2025 - ago. 2025 · 3 meses | Remoto"
+          : "Jun 2025 - Aug 2025 · 3 months | Remote",
+      highlights:
+        language === "es"
+          ? [
+              "Desarrollador Backend & Fullstack Parcial especializado en Laravel, MySQL y Vue.js.",
+              "Diseñé, refactoricé y optimicé módulos internos para plataformas de gestión.",
+              "Unifiqué lógicas repetidas para reducir código duplicado y mejorar la escalabilidad.",
+              "Optimicé consultas SQL, evitando problemas N+1 y mejorando paginaciones, filtrados y rankings.",
+              "Automaticé procesos como importaciones masivas utilizando Laravel Excel.",
+              "Documentación técnica y organización de tareas por proyectos y bloques de tiempo.",
+            ]
+          : [
+              "Backend & Partial Fullstack Developer specialized in Laravel, MySQL, and Vue.js.",
+              "Designed, refactored, and optimized internal modules for management platforms.",
+              "Unified repeated logic to reduce code duplication and improve scalability.",
+              "Optimized SQL queries, avoiding N+1 problems and improving pagination, filtering, and rankings.",
+              "Automated processes such as bulk imports using Laravel Excel.",
+              "Technical documentation and task organization by projects and time blocks.",
+            ],
+    },
     {
       role:
         language === "es"
@@ -106,35 +132,50 @@ export default function About() {
 
   const education = [
     {
-      degree: language === "es" 
-        ? "Tecnólogo en Análisis y Desarrollo de Sistemas de Información" 
-        : "Technologist in Information Systems Analysis and Development",
+      degree:
+        language === "es"
+          ? "Tecnólogo en Análisis y Desarrollo de Sistemas de Información"
+          : "Technologist in Information Systems Analysis and Development",
       institution: "SENA",
-      period: language === "es" ? "Marzo 2020 - Octubre 2022" : "March 2020 - October 2022",
+      period:
+        language === "es"
+          ? "Marzo 2020 - Octubre 2022"
+          : "March 2020 - October 2022",
     },
     {
-      degree: language === "es" 
-        ? "Carreras: Frontend con React.js y Backend con PHP (Platzi)" 
-        : "Careers: Frontend with React.js & Backend with PHP (Platzi)",
+      degree:
+        language === "es"
+          ? "Carreras: Frontend con React.js y Backend con PHP (Platzi)"
+          : "Careers: Frontend with React.js & Backend with PHP (Platzi)",
       institution: "Platzi",
-      period: language === "es" ? "Enero 2022 - Febrero 2023" : "January 2022 - February 2023",
+      period:
+        language === "es"
+          ? "Enero 2022 - Febrero 2023"
+          : "January 2022 - February 2023",
     },
     {
-      degree: language === "es" 
-        ? "Curso de inglés (En curso)" 
-        : "English Course (In progress)",
+      degree:
+        language === "es"
+          ? "Curso de inglés (En curso)"
+          : "English Course (In progress)",
       institution: "Smart Academia de Idiomas",
-      period: language === "es" ? "Enero 2024 - Actualidad" : "January 2024 - Present",
+      period:
+        language === "es"
+          ? "Enero 2024 - Actualidad"
+          : "January 2024 - Present",
     },
     {
-      degree: language === "es" 
-        ? "Ingeniería de Sistemas (En curso)" 
-        : "Systems Engineering (In progress)",
+      degree:
+        language === "es"
+          ? "Ingeniería de Sistemas (En curso)"
+          : "Systems Engineering (In progress)",
       institution: "Universidad Nacional Abierta y a Distancia - UNAD",
-      period: language === "es" ? "Enero 2024 - Actualidad" : "January 2024 - Present",
+      period:
+        language === "es"
+          ? "Enero 2024 - Actualidad"
+          : "January 2024 - Present",
     },
   ];
-  
 
   return (
     <section id="about" className="py-20 bg-white dark:bg-gray-800">

@@ -25,6 +25,38 @@ export default function About() {
 
   const experiences = [
     {
+      role: language === "es" ? "Desarrollador Full Stack" : "Full Stack Developer",
+      company: "EduLabs",
+      period:
+        language === "es"
+          ? "nov. 2025 - actualidad · 6 meses | Cajicá, Cundinamarca · En remoto"
+          : "Nov 2025 - Present · 6 months | Cajicá, Cundinamarca · Remote",
+      highlights:
+        language === "es"
+          ? [
+              "Participé en el desarrollo de soluciones tecnológicas para el sector educativo, enfocadas en plataformas basadas en Moodle.",
+              "Desarrollo, mantenimiento y actualización de plugins personalizados en Moodle utilizando PHP.",
+              "Gestión y optimización de bases de datos MySQL y PostgreSQL para mejorar el rendimiento de la plataforma.",
+              "Implementación de nuevas funcionalidades y mejoras evolutivas en sistemas educativos existentes.",
+              "Participación activa en la planificación, estimación y desarrollo de tareas bajo metodología ágil (Scrum).",
+              "Colaboración en un equipo de 6 desarrolladores, trabajando de forma remota y coordinada.",
+              "Interacción directa con clientes para levantamiento de requerimientos y validación de soluciones técnicas.",
+              "Integración y participación en un proyecto enfocado en soluciones educativas apoyadas con inteligencia artificial.",
+              "Resolución de incidencias y soporte técnico en entornos productivos.",
+            ]
+          : [
+              "Participated in developing technological solutions for the education sector, focused on Moodle-based platforms.",
+              "Developed, maintained, and updated custom Moodle plugins using PHP.",
+              "Managed and optimized MySQL and PostgreSQL databases to improve platform performance.",
+              "Implemented new features and evolutionary improvements in existing educational systems.",
+              "Actively participated in planning, estimation, and development of tasks under Scrum methodology.",
+              "Collaborated in a team of 6 developers, working remotely and coordinately.",
+              "Direct interaction with clients for requirements gathering and technical solution validation.",
+              "Integration and participation in projects focused on AI-supported educational solutions.",
+              "Incident resolution and technical support in production environments.",
+            ],
+    },
+    {
       role: language === "es" ? "Desarrollador Web" : "Web Developer",
       company: "Involve, LLC",
       period:

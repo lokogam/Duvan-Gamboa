@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import emailjs from '@emailjs/browser';
+// https://dashboard.emailjs.com/admin/
 
 export default function Contact() {
   const { language } = useLanguage();

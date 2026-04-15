@@ -12,10 +12,10 @@ export default function About() {
       language === "es" ? "Perfil Profesional" : "Professional Profile",
     profileText:
       language === "es"
-        ? `🚀 Tecnólogo en Desarrollo de Software con experiencia en Laravel, Node.js, Vue, React y tecnologías Cloud e Inteligencia Artificial. Transformo ideas en soluciones digitales escalables que impulsan la eficiencia operativa y la innovación.
+        ? `🚀 Tecnólogo en Desarrollo de Software con más de 4 años de experiencia profesional en Laravel, Node.js, Vue, React y tecnologías Cloud e Inteligencia Artificial. Transformo ideas en soluciones digitales escalables que impulsan la eficiencia operativa y la innovación.
         💡 Desarrollo aplicaciones web optimizadas, automatizo procesos y creo APIs RESTful eficientes para integrar sistemas y mejorar la experiencia de usuario.
         🔥 Apasionado por la convergencia entre backend, cloud computing e IA, buscando siempre liderar proyectos transformadores con alto impacto técnico y social.`
-        : `🚀 Software Technologist with experience in Laravel, Node.js, Vue, React, and Cloud & AI technologies. I transform ideas into scalable digital solutions that drive operational efficiency and innovation.
+        : `🚀 Software Technologist with over 4 years of professional experience in Laravel, Node.js, Vue, React, and Cloud & AI technologies. I transform ideas into scalable digital solutions that drive operational efficiency and innovation.
         💡 I develop optimized web applications, automate processes, and build efficient RESTful APIs to integrate systems and enhance user experience.
         🔥 Passionate about the convergence of backend, cloud computing, and AI, always looking to lead high-impact and transformative projects.`,
     experienceTitle:
@@ -24,6 +24,36 @@ export default function About() {
   };
 
   const experiences = [
+    {
+      role: language === "es" ? "Desarrollador Web" : "Web Developer",
+      company: "Involve, LLC",
+      period:
+        language === "es"
+          ? "ago. 2025 - oct. 2025 · 3 meses | Argentina · En remoto"
+          : "Aug 2025 - Oct 2025 · 3 months | Argentina · Remote",
+      highlights:
+        language === "es"
+          ? [
+              "Presté servicios de desarrollo web bajo la modalidad contractor, participando en la construcción, mantenimiento y soporte de sistemas internos y proyectos de clientes.",
+              "Desarrollo de módulos administrativos y conexión de APIs RESTful utilizando Laravel y Node.js.",
+              "Integración de sistemas y optimización de funcionalidades existentes para mejorar el rendimiento y escalabilidad.",
+              "Implementación de validaciones, manejo de errores y autenticación con JWT.",
+              "Coordinación con equipos multidisciplinarios mediante Slack y gestión de tareas en Jira.",
+              "Refactorización de código y estandarización de controladores y servicios.",
+              "Apoyo en procesos de soporte técnico y mantenimiento evolutivo de aplicaciones en producción.",
+              "Trabajo colaborativo en proyectos utilizando Docker, GitHub y bases de datos MySQL.",
+            ]
+          : [
+              "Provided web development services as a contractor, participating in the construction, maintenance, and support of internal systems and client projects.",
+              "Developed administrative modules and connected RESTful APIs using Laravel and Node.js.",
+              "Integrated systems and optimized existing functionalities to improve performance and scalability.",
+              "Implemented validations, error handling, and authentication with JWT.",
+              "Coordinated with multidisciplinary teams via Slack and managed tasks in Jira.",
+              "Refactored code and standardized controllers and services.",
+              "Provided technical support and evolutionary maintenance of production applications.",
+              "Collaborated on projects using Docker, GitHub, and MySQL databases.",
+            ],
+    },
     {
       role: language === "es" ? "Desarrollador Backend" : "Backend Developer",
       company: "Grupo Alianza - Gestión Efectiva del Talento Humano",

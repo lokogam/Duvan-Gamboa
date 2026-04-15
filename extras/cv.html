@@ -115,6 +115,12 @@
             left: 0;
         }
 
+        /* Quitar viñetas por defecto de las listas */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
         .certifications-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -151,106 +157,24 @@
         }
 
         @media print {
-            body {
-                background: white;
-                font-size: 10pt;
-                line-height: 1.3;
-            }
-
-            .container {
-                margin: 0;
-                padding: 0.5cm;
-                box-shadow: none;
-                max-width: 100%;
-            }
-
-            .print-button {
-                display: none;
-            }
-
-            .section {
-                break-inside: avoid;
-                margin-bottom: 0.5cm;
-                padding: 0.3cm;
-            }
-
-            .contact-info {
-                background: none;
-                margin-bottom: 0.5cm;
-                padding: 0.3cm;
-            }
-
-            .header {
-                padding: 0.5cm 0;
-                margin-bottom: 0.5cm;
-            }
-
-            .header h1 {
-                font-size: 18pt;
-                margin-bottom: 0.2cm;
-            }
-
-            .header h2 {
-                font-size: 14pt;
-            }
-
-            .section h2 {
-                font-size: 12pt;
-                margin-bottom: 0.3cm;
-                padding-bottom: 0.2cm;
-            }
-
-            .section h3 {
-                font-size: 11pt;
-                margin: 0.3cm 0;
-            }
-
-            .list-item {
-                margin-bottom: 0.2cm;
-                padding-left: 0.5cm;
-            }
-
-            .certifications-section {
-                gap: 0.5cm;
-            }
-
-            .certifications-column {
-                padding: 0.3cm;
-            }
-
-            .certifications-column h3 {
-                font-size: 11pt;
-                margin-bottom: 0.3cm;
-            }
-
-            p {
-                margin-bottom: 0.3cm;
-            }
-
-            ul {
-                margin-bottom: 0.3cm;
-            }
-
             @page {
                 size: A4;
-                margin: 1cm;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
                 margin: 0;
-                padding: 1rem;
             }
-
-            .header h1 {
-                font-size: 2rem;
+            
+            .print-button {
+                display: none !important;
             }
-
-            .header h2 {
-                font-size: 1.2rem;
+            
+            body {
+                transform: scale(0.6);
+                transform-origin: top left;
+                width: 166.67%; /* 100/0.6 para compensar el scale */
+                height: 166.67%;
+                overflow: hidden;
             }
         }
+
     </style>
 </head>
 <body>
@@ -271,46 +195,75 @@
         <div class="section">
             <h2>Perfil Profesional</h2>
             <p>
-                Tecnólogo en Análisis y Desarrollo de Sistemas de Información con más de 3 años de experiencia desarrollando soluciones web y móviles. 
-                Experto en PHP, Laravel, JavaScript, React, Vue.js y MySQL. 
-                He liderado proyectos que optimizan procesos operativos mediante APIs RESTful y arquitecturas modernas. 
-                Busco impactar con soluciones backend y cloud computing en equipos ágiles y multidisciplinarios.
+                Tecnólogo en Desarrollo de Software con más de 4 años de experiencia en PHP, Laravel, JavaScript, React, Vue.js y MySQL. 
+                Especializado en APIs RESTful, optimización de procesos y arquitecturas modernas. 
+                Experiencia en equipos ágiles, cloud computing e integración de sistemas.
             </p>
             <p>
-                Actualmente resido en Vélez, Santander, y tengo total disponibilidad para cambiar de residencia. 
-                He trabajado más de 6 meses en la ciudad de Bogotá y más de un año en Medellín, además de haber trabajado desde casa el último año.
-                Estoy dispuesto a trabajar como freelancer, en modalidad remota, híbrida o presencial.
+                Resido en Vélez, Santander. Disponibilidad total para cambiar residencia o trabajar remoto/híbrido/presencial.
+                Experiencia previa en Bogotá y Medellín.
             </p>
         </div>
 
         <div class="section">
             <h2>Experiencia Laboral</h2>
 
+            <h3>Desarrollador Web, Involve LLC, Argentina/Remoto</h3>
+            <p><em>Agosto 2025 - Octubre 2025</em></p>
+            <ul>
+                <li class="list-item">Desarrollo de módulos administrativos y conexión de APIs RESTful con Laravel y Node.js.</li>
+                <li class="list-item">Integración de sistemas y optimización de funcionalidades para mejorar rendimiento y escalabilidad.</li>
+                <li class="list-item">Implementación de validaciones, manejo de errores y autenticación con JWT.</li>
+                <li class="list-item">Coordinación con equipos multidisciplinarios mediante Slack y gestión de tareas en Jira.</li>
+                <li class="list-item">Refactorización de código y estandarización de controladores y servicios.</li>
+                <li class="list-item">Apoyo en procesos de soporte técnico y mantenimiento evolutivo de aplicaciones en producción.</li>
+            </ul>
+
+            <h3>Desarrollador Full Stack, Smart Talent, Medellín/Remoto</h3>
+            <p><em>Junio 2025 - Agosto 2025</em></p>
+            <ul>
+                <li class="list-item">Desarrollo y mantenimiento de plataformas de gestión de talento tecnológico con React, TailwindCSS, PHP, MySQL y Python.</li>
+                <li class="list-item">Diseño, implementación y optimización de funcionalidades para mejorar la experiencia de usuario.</li>
+                <li class="list-item">Refactorización de componentes y mejora del rendimiento en distintas secciones de la plataforma.</li>
+                <li class="list-item">Desarrollo de sistemas de roles, permisos y notificaciones para la gestión integral de usuarios.</li>
+                <li class="list-item">Integración de herramientas externas y automatización de procesos internos.</li>
+                <li class="list-item">Evaluación técnica de candidatos y apoyo en la definición de perfiles y vacantes.</li>
+            </ul>
+
+            <h3>Desarrollador Backend, Grupo Alianza - Gestión Efectiva del Talento Humano, Remoto</h3>
+            <p><em>Junio 2025 - Agosto 2025</em></p>
+            <ul>
+                <li class="list-item">Backend & Fullstack especializado en Laravel, MySQL y Vue.js.</li>
+                <li class="list-item">Refactoricé y optimicé módulos internos para plataformas de gestión.</li>
+                <li class="list-item">Reduje código duplicado y mejoré escalabilidad.</li>
+                <li class="list-item">Optimicé consultas SQL, evitando problemas N+1.</li>
+                <li class="list-item">Automaticé importaciones masivas con Laravel Excel.</li>
+            </ul>
+
             <h3>Desarrollador Semisenior, LinkTIC, Remoto</h3>
             <p><em>Agosto 2024 - Enero 2025</em></p>
             <ul>
-                <li class="list-item">Desarrollé y mantuve aplicaciones utilizando diversas tecnologías como PHP, Java, y Docker, trabajando de manera remota.</li>
-                <li class="list-item">Participé en el desarrollo y actualización de aplicaciones móviles multiplataforma utilizando Xamarin.</li>
-                <li class="list-item">Analicé requerimientos asignados y desarrollé componentes siguiendo buenas prácticas de desarrollo.</li>
-                <li class="list-item">Realicé optimización de consultas y mantenimiento de bases de datos SQL y MySQL.</li>
+                <li class="list-item">Desarrollé aplicaciones con PHP, Java y Docker remotamente.</li>
+                <li class="list-item">Apps móviles multiplataforma con Xamarin.</li>
+                <li class="list-item">Análisis de requerimientos y buenas prácticas.</li>
+                <li class="list-item">Optimización de consultas SQL y MySQL.</li>
             </ul>
 
             <h3>Desarrollador software, Wescreativo, Medellín/Remoto</h3>
             <p><em>Julio 2022 - Mayo 2024</em></p>
             <ul>
-                <li class="list-item">Utilicé Laravel y React con Inertia para desarrollar características importantes del proyecto.</li>
-                <li class="list-item">Trabajé en estrecha colaboración con un equipo de desarrolladores y diseñadores.</li>
-                <li class="list-item">Implementé pruebas automatizadas y mantuve la documentación actualizada.</li>
-                <li class="list-item">Trabajé con Node.js, Tailwind CSS, WordPress, TypeScript, Docker, Git, y servicios cloud.</li>
+                <li class="list-item">Laravel y React con Inertia para funcionalidades clave.</li>
+                <li class="list-item">Colaboración con equipos de desarrollo y diseño.</li>
+                <li class="list-item">Pruebas automatizadas y documentación técnica.</li>
+                <li class="list-item">Node.js, Tailwind, WordPress, Docker, AWS S3.</li>
             </ul>
 
             <h3>Desarrollador de Software, Indoamericana, Bogotá</h3>
             <p><em>Noviembre 2021 - Mayo 2022</em></p>
             <ul>
-                <li class="list-item">Desarrollé y mantuve aplicaciones web utilizando PHP y JavaScript.</li>
-                <li class="list-item">Implementé consultas y optimizaciones en bases de datos MySQL.</li>
-                <li class="list-item">Utilicé Git y GitHub para la gestión de versiones.</li>
-                <li class="list-item">Trabajé con PHP, JavaScript, MySQL, Git, WordPress, Vue y Laravel.</li>
+                <li class="list-item">Aplicaciones web con PHP y JavaScript.</li>
+                <li class="list-item">Optimización de consultas MySQL.</li>
+                <li class="list-item">Control de versiones con Git y GitHub.</li>
             </ul>
         </div>
 
@@ -351,24 +304,24 @@
                 <div class="certifications-column">
                     <h3>SENA</h3>
                     <ul>
-                        <li class="list-item">Variables y Estructuras de Control en Programación Orientada a Objetos: Java</li>
+                        <li class="list-item">Programación Orientada a Objetos: Java</li>
                         <li class="list-item">Desarrollo de Aplicaciones con Interfaz Gráfica: Java</li>
-                        <li class="list-item">Desarrollo de Aplicaciones con Manejo de Datos en Memoria: Java</li>
-                        <li class="list-item">Desarrollo de Habilidades Digitales para la Gestión de Información</li>
-                        <li class="list-item">Análisis para el Desarrollo Móvil con App Inventor</li>
+                        <li class="list-item">Aplicaciones con Manejo de Datos en Memoria: Java</li>
+                        <li class="list-item">Habilidades Digitales para Gestión de Información</li>
+                        <li class="list-item">Desarrollo Móvil con App Inventor</li>
                     </ul>
 
                     <h3>LinkedIn</h3>
                     <ul>
                         <li class="list-item">Integración HTML y CSS Esencial</li>
-                        <li class="list-item">Fundamentos de Programación: Diseño Orientado a Objetos</li>
+                        <li class="list-item">Programación: Diseño Orientado a Objetos</li>
                         <li class="list-item">GitHub para Desarrolladores</li>
                         <li class="list-item">HTML Esencial</li>
                     </ul>
 
                     <h3>Coursera</h3>
                     <ul>
-                        <li class="list-item">Cómo resolver problemas y tomar decisiones con eficacia (University of California, Irvine)</li>
+                        <li class="list-item">Resolución de problemas y toma de decisiones (UC Irvine)</li>
                         <li class="list-item">Data Analysis with Python (IBM)</li>
                     </ul>
                 </div>
@@ -376,20 +329,20 @@
                 <div class="certifications-column">
                     <h3>Platzi</h3>
                     <ul>
-                        <li class="list-item">Frontend con React.js <strong>(Platzi carrera)</strong></li>
-                        <li class="list-item">Desarrollo Web Backend con PHP <strong>(Platzi carrera)</strong></li>
+                        <li class="list-item">Frontend con React.js (Carrera)</li>
+                        <li class="list-item">Backend con PHP (Carrera)</li>
                         <li class="list-item">JavaScript Práctico y Profesional</li>
-                        <li class="list-item">Curso de PHP Laravel</li>
+                        <li class="list-item">PHP Laravel</li>
                         <li class="list-item">Laravel SPA y Avanzado</li>
                         <li class="list-item">PHP Avanzado</li>
                         <li class="list-item">Vue Avanzado y Profesional</li>
                         <li class="list-item">Git y GitHub</li>
                         <li class="list-item">Economía Digital y Blockchain</li>
-                        <li class="list-item">Fundamentos de Arquitectura de Software</li>
+                        <li class="list-item">Arquitectura de Software</li>
                         <li class="list-item">Java SE Orientado a Objetos</li>
-                        <li class="list-item">Introducción a Solidity y Celo</li>
-                        <li class="list-item">Curso de Docker</li>
-                        <li class="list-item">Angular: Creación de Aplicaciones Web</li>
+                        <li class="list-item">Solidity y Celo</li>
+                        <li class="list-item">Docker</li>
+                        <li class="list-item">Angular</li>
                     </ul>
                 </div>
             </div>

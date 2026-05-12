@@ -2,13 +2,16 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import emailjs from '@emailjs/browser';
+import { motion } from 'framer-motion';
 // https://dashboard.emailjs.com/admin/
 
 export default function Contact() {
   const { language } = useLanguage();
+  const Motion = motion;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: ''
   });
   const [errors, setErrors] = useState({});
@@ -82,7 +85,7 @@ export default function Contact() {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
       setSubmitStatus('success'); 
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
       setSubmitStatus('error');
     } finally {
@@ -91,13 +94,13 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900">
+    <section id="contact" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
             {content.title}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mt-2">
+          <p className="mt-2 text-slate-600 dark:text-slate-300">
             {content.subtitle}
           </p>
         </div>
@@ -106,7 +109,13 @@ export default function Contact() {
           {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"> */}
           <div className="grid grid-cols-1 gap-8">
             {/* Formulario */}
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <Motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.45 }}
+              className="glass-card rounded-2xl p-8 shadow-lg"
+            >
               <form onSubmit={handleSubmit}>
                 <div className="space-y-6">
                   <div>
@@ -119,7 +128,7 @@ export default function Contact() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                      className={`w-full rounded-lg border px-4 py-2 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 dark:bg-slate-800 dark:border-slate-600 dark:text-white ${
                         errors.name ? 'border-red-500' : 'border-gray-300'
                       }`}
                     />
@@ -138,7 +147,7 @@ export default function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                      className={`w-full rounded-lg border px-4 py-2 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 dark:bg-slate-800 dark:border-slate-600 dark:text-white ${
                         errors.email ? 'border-red-500' : 'border-gray-300'
                       }`}
                     />
@@ -158,7 +167,7 @@ export default function Contact() {
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                      className={`w-full rounded-lg border px-4 py-2 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 dark:bg-slate-800 dark:border-slate-600 dark:text-white ${
                         errors.subject ? 'border-red-500' : 'border-gray-300'
                       }`}
                     />
@@ -177,7 +186,7 @@ export default function Contact() {
                       rows="5"
                       value={formData.message}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                      className={`w-full rounded-lg border px-4 py-2 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 dark:bg-slate-800 dark:border-slate-600 dark:text-white ${
                         errors.message ? 'border-red-500' : 'border-gray-300'
                       }`}
                     ></textarea>
@@ -190,7 +199,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="w-full rounded-lg bg-slate-900 px-6 py-3 font-medium text-white shadow-md shadow-slate-900/20 transition-colors hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {isSubmitting ? (
                         language === 'es' ? 'Enviando...' : 'Sending...'
@@ -215,7 +224,7 @@ export default function Contact() {
                   )}
                 </div>
               </form>
-            </div>
+            </Motion.div>
 
             {/* Información de Contacto */}
             {/* <div className="space-y-8">

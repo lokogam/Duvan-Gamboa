@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function Projects() {
   const { language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const Motion = motion;
 
   // Contenido traducible
   const content = {
@@ -163,7 +165,6 @@ export default function Projects() {
     : projects.filter((project) => project.category === activeFilter);
 
   const projectsPerPage = 3;
-  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => 
@@ -184,12 +185,33 @@ export default function Projects() {
     currentIndex + projectsPerPage
   );
 
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [activeFilter]);
+
   return (
-    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900">
+    <section id="projects" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">
+        <h2 className="mb-8 text-center text-3xl font-bold text-slate-900 dark:text-white">
           {content.title}
         </h2>
+
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
+          {Object.entries(content.filters).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setActiveFilter(key)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                activeFilter === key
+                  ? "bg-slate-900 text-white shadow-lg shadow-slate-900/25"
+                  : "bg-white/70 text-slate-700 hover:bg-white dark:bg-slate-800/70 dark:text-slate-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
 
         {/* Carrusel de Proyectos */}
         <div className="relative">
@@ -206,36 +228,40 @@ export default function Projects() {
 
           {/* Contenedor de proyectos */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {visibleProjects.map((project) => (
-              <div
+            {visibleProjects.map((project, index) => (
+              <Motion.div
                 key={project.id}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow flex flex-col h-full"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                className="glass-card flex h-full flex-col overflow-hidden rounded-2xl shadow-lg shadow-slate-900/10 transition-transform duration-300 hover:-translate-y-1"
               >
                 {/* Imagen del proyecto */}
                 <div className="h-48 overflow-hidden">
                   <img
                     src={`${import.meta.env.VITE_BASE_URL}/${project.image}`}
                     alt={project.title}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform"
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                     loading="lazy"
                   />
                 </div>
 
                 {/* Contenido */}
-                <div className="p-6 flex-grow flex flex-col">
-                  <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                <div className="flex flex-grow flex-col p-6">
+                  <h3 className="mb-2 text-xl font-bold text-slate-900 dark:text-white">
                     {project.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <p className="mb-4 text-sm leading-6 text-slate-600 dark:text-slate-300">
                     {project.description}
                   </p>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="mb-4 flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-xs"
+                        className="rounded-full bg-cyan-100 px-3 py-1 text-xs text-cyan-800 dark:bg-cyan-900/60 dark:text-cyan-100"
                       >
                         {tag}
                       </span>
@@ -250,7 +276,7 @@ export default function Projects() {
                           href={project.demoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors flex-grow text-center"
+                          className="flex-grow rounded-md bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-slate-700"
                         >
                           {content.ctaDemo}
                         </a>
@@ -259,14 +285,14 @@ export default function Projects() {
                         href={project.codeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md text-sm font-medium transition-colors flex-grow text-center"
+                        className="flex-grow rounded-md border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-700 transition-colors hover:bg-white dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700"
                       >
                         {content.ctaCode}
                       </a>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Motion.div>
             ))}
           </div>
 

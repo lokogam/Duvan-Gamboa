@@ -68,80 +68,65 @@
 
 import React from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function Skills() {
   const { language } = useLanguage();
+  const Motion = motion;
 
   // Contenido traducible
   const content = {
     title: language === "es" ? "Habilidades y Certificaciones" : "Skills & Certifications",
     skillsTitle: language === "es" ? "Habilidades Técnicas" : "Technical Skills",
-    certificationsTitle: language === "es" ? "Certificaciones" : "Certifications",
   };
 
 
   // Habilidades agrupadas por categoría
   const skills = {
-    languages: ["PHP", "JavaScript", , "Java", "SQL",  "TypeScript", "Python"],
-    frameworks: ["Laravel", "React", "Node.js",  "Vue.js",  "Next.js"],
-    databases: ["MySQL",  "MongoDB", "Redis", ],
-    devops: ["Docker",  "Git", "GitHub Actions" ],
-    design: [ "Tailwind CSS", "Bootstrap", "jQuery", "HTML", "CSS", ],
-    other: ["APIs RESTful", "Linux", 'Scrum',"JSON" ],
+    languages: ["PHP", "JavaScript", "Java", "SQL", "TypeScript", "Python"],
+    frameworks: ["Laravel", "React", "Node.js", "Vue.js", "Next.js"],
+    databases: ["MySQL", "MongoDB", "Redis"],
+    devops: ["Docker", "Git", "GitHub Actions"],
+    design: ["Tailwind CSS", "Bootstrap", "jQuery", "HTML", "CSS"],
+    other: ["APIs RESTful", "Linux", "Scrum", "JSON"],
   };
 
-  // Certificaciones (ejemplo)
-  const certifications = [
-    {
-      issuer: "Platzi",
-      name: language === "es" ? "Frontend con React.js" : "Frontend with React.js",
-      year: "2023",
-    },
-    {
-      issuer: "AWS",
-      name: language === "es" ? "Fundamentos de AWS" : "AWS Fundamentals",
-      year: "2022",
-    },
-    {
-      issuer: "SENA",
-      name: language === "es" ? "Desarrollo de APIs RESTful" : "RESTful API Development",
-      year: "2021",
-    },
-    // Agrega más...
-  ];
-
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-gray-800">
+    <section id="skills" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">
+        <h2 className="mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">
           {content.title}
         </h2>
 
         {/* Habilidades */}
         <div className="max-w-4xl mx-auto mb-16">
-          <h3 className="text-xl font-semibold mb-6 text-gray-800 dark:text-white">
+          <h3 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
             {content.skillsTitle}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.entries(skills).map(([category, items]) => (
-              <div
+            {Object.entries(skills).map(([category, items], index) => (
+              <Motion.div
                 key={category}
-                className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-md"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="glass-card rounded-xl p-6 shadow-md"
               >
-                <h4 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white capitalize">
+                <h4 className="mb-4 text-lg font-semibold capitalize text-slate-900 dark:text-white">
                   {category}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {items.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                      className="rounded-full bg-emerald-100 px-3 py-1 text-sm text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-100"
                     >
                       {skill}
                     </span>
                   ))}
                 </div>
-              </div>
+              </Motion.div>
             ))}
           </div>
         </div>

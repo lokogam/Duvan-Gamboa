@@ -2,17 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Estilos globales para el tema oscuro/claro */
-body {
-  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
-  transition: background-color 0.3s ease, color 0.3s ease;
+:root {
+  --bg-base: #f3f4f6;
+  --bg-ambient-1: #dbeafe;
+  --bg-ambient-2: #fde68a;
+  --text-main: #0f172a;
+  --text-muted: #334155;
+  --card-bg: rgba(255, 255, 255, 0.78);
+  --card-border: rgba(148, 163, 184, 0.28);
+  --control-bg: rgba(255, 255, 255, 0.78);
+  --control-bg-hover: rgba(255, 255, 255, 0.96);
+  --control-border: rgba(148, 163, 184, 0.35);
+  --control-text: #334155;
+  --control-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
 }
 
-/* Mejora la legibilidad de los enlaces y botones */
+.dark {
+  --bg-base: #020617;
+  --bg-ambient-1: #1e293b;
+  --bg-ambient-2: #0f172a;
+  --text-main: #e2e8f0;
+  --text-muted: #cbd5e1;
+  --card-bg: rgba(15, 23, 42, 0.76);
+  --card-border: rgba(148, 163, 184, 0.2);
+  --control-bg: rgba(30, 41, 59, 0.8);
+  --control-bg-hover: rgba(51, 65, 85, 0.92);
+  --control-border: rgba(148, 163, 184, 0.25);
+  --control-text: #e2e8f0;
+  --control-shadow: 0 8px 22px rgba(2, 6, 23, 0.35);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--text-main);
+  font-family: 'Sora', sans-serif;
+  background:
+    radial-gradient(circle at 10% 15%, var(--bg-ambient-1), transparent 45%),
+    radial-gradient(circle at 85% 25%, var(--bg-ambient-2), transparent 40%),
+    var(--bg-base);
+  background-attachment: fixed;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+}
+
 a {
-  @apply text-blue-100 dark:text-blue-100 hover:underline;
+  color: inherit;
 }
 
 button {
-  @apply transition-colors duration-200;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(12px);
+}
+
+.ui-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--control-border);
+  color: var(--control-text);
+  background: var(--control-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--control-shadow);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.ui-control:hover {
+  background: var(--control-bg-hover);
+}
+
+.ui-control--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
 }

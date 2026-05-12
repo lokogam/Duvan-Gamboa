@@ -1,9 +1,11 @@
 // // src/components/About.jsx
 import React from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function About() {
   const { language } = useLanguage();
+  const Motion = motion;
 
   // Contenido traducible
   const content = {
@@ -15,7 +17,7 @@ export default function About() {
         ? `🚀 Tecnólogo en Desarrollo de Software con más de 4 años de experiencia profesional en Laravel, Node.js, Vue, React y tecnologías Cloud e Inteligencia Artificial. Transformo ideas en soluciones digitales escalables que impulsan la eficiencia operativa y la innovación.
         💡 Desarrollo aplicaciones web optimizadas, automatizo procesos y creo APIs RESTful eficientes para integrar sistemas y mejorar la experiencia de usuario.
         🔥 Apasionado por la convergencia entre backend, cloud computing e IA, buscando siempre liderar proyectos transformadores con alto impacto técnico y social.`
-        : `🚀 Software Technologist with over 4 years of professional experience in Laravel, Node.js, Vue, React, and Cloud & AI technologies. I transform ideas into scalable digital solutions that drive operational efficiency and innovation.
+        : `Software Technologist with over 4 years of professional experience in Laravel, Node.js, Vue, React, and Cloud & AI technologies. I transform ideas into scalable digital solutions that drive operational efficiency and innovation.
         💡 I develop optimized web applications, automate processes, and build efficient RESTful APIs to integrate systems and enhance user experience.
         🔥 Passionate about the convergence of backend, cloud computing, and AI, always looking to lead high-impact and transformative projects.`,
     experienceTitle:
@@ -29,8 +31,8 @@ export default function About() {
       company: "EduLabs",
       period:
         language === "es"
-          ? "nov. 2025 - actualidad · 6 meses | Cajicá, Cundinamarca · En remoto"
-          : "Nov 2025 - Present · 6 months | Cajicá, Cundinamarca · Remote",
+          ? "Nov. 2025 - May. 2026 | Remoto"
+          : "Nov. 2025 - May. 2026 | Remote",
       highlights:
         language === "es"
           ? [
@@ -240,22 +242,28 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-white dark:bg-gray-800">
+    <section id="about" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">
+        <h2 className="mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">
           {content.title}
         </h2>
 
         <div className="max-w-4xl mx-auto">
           {/* Sección de Perfil */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+          <Motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.4 }}
+          >
+            <h3 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
               {content.profileTitle}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 whitespace-pre-line">
+            <p className="whitespace-pre-line text-slate-600 dark:text-slate-300">
               {content.profileText}
             </p>
-            <div className="flex flex-wrap gap-2 mt-6">
+            <div className="mt-6 flex flex-wrap gap-2">
               {[
                 "Laravel",
                 "Vue",
@@ -267,64 +275,76 @@ export default function About() {
                 "Python",
                 "Inteligencia Artificial",
               ].map((tech) => (
-                <span
+                <Motion.span
                   key={tech}
-                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm"
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.25 }}
+                  className="rounded-full bg-cyan-100 px-3 py-1 text-sm text-cyan-800 dark:bg-cyan-900/60 dark:text-cyan-100"
                 >
                   {tech}
-                </span>
+                </Motion.span>
               ))}
             </div>
-          </div>
+          </Motion.div>
 
           {/* Sección de Experiencia */}
           <div className="mb-12">
-            <h3 className="text-xl font-semibold mb-6 text-gray-800 dark:text-white">
+            <h3 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
               {content.experienceTitle}
             </h3>
             <div className="space-y-8">
               {experiences.map((exp, index) => (
-                <div
+                <Motion.div
                   key={index}
-                  className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.32, delay: index * 0.04 }}
+                  className="glass-card rounded-lg p-6 shadow-md transition-shadow hover:shadow-lg"
                 >
-                  <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
                     {exp.role} - {exp.company}
                   </h4>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
+                  <p className="mb-4 text-slate-500 dark:text-slate-400">
                     {exp.period}
                   </p>
-                  <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
+                  <ul className="list-inside list-disc space-y-2 text-slate-600 dark:text-slate-300">
                     {exp.highlights.map((item, i) => (
                       <li key={i}>{item}</li>
                     ))}
                   </ul>
-                </div>
+                </Motion.div>
               ))}
             </div>
           </div>
 
           {/* Sección de Educación */}
           <div>
-            <h3 className="text-xl font-semibold mb-6 text-gray-800 dark:text-white">
+            <h3 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
               {content.educationTitle}
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               {education.map((edu, index) => (
-                <div
+                <Motion.div
                   key={index}
-                  className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-md"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.28, delay: index * 0.06 }}
+                  className="glass-card rounded-lg p-6 shadow-md"
                 >
-                  <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
                     {edu.degree}
                   </h4>
-                  <p className="text-gray-600 dark:text-gray-300 mt-1">
+                  <p className="mt-1 text-slate-600 dark:text-slate-300">
                     {edu.institution}
                   </p>
-                  <p className="text-gray-500 dark:text-gray-400 mt-2">
+                  <p className="mt-2 text-slate-500 dark:text-slate-400">
                     {edu.period}
                   </p>
-                </div>
+                </Motion.div>
               ))}
             </div>
           </div>

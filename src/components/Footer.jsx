@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function Footer() {
   const { language } = useLanguage();
+  const Motion = motion;
 
   // Contenido traducible
   const content = {
@@ -72,37 +74,41 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer className="py-12 text-slate-700 dark:text-slate-300">
+      <Motion.div
+        className="container mx-auto px-4"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.45 }}
+      >
+        <div className="glass-card grid grid-cols-1 gap-8 rounded-2xl p-8 md:grid-cols-2 mb-8">
           {/* Columna 1: Descripción */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">
+            <h3 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
               Duvan Gamboa
             </h3>
             <p className="mb-4">{content.description}</p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
-                <a
+                <Motion.a
                   key={social.name}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  className="text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                   aria-label={social.name}
                 >
                   {social.icon}
-                </a>
+                </Motion.a>
               ))}
             </div>
-          </div>
-          <div>
-            
           </div>
 
           {/* Columna 2: Enlaces rápidos */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">
+            <h3 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
               {content.linksTitle}
             </h3>
             <ul className="space-y-2">
@@ -110,7 +116,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="hover:text-white transition-colors"
+                    className="transition-colors hover:text-slate-900 dark:hover:text-white"
                   >
                     {link.name}
                   </a>
@@ -169,11 +175,11 @@ export default function Footer() {
 
         {/* Divider */}
         {/* ScrollToTopButton  */}
-        <div className="border-t border-gray-800 pt-8">
+        <div className="border-t border-slate-300/60 pt-8 dark:border-slate-700/40">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p>{content.rights}</p>
             <div className="flex items-center gap-4 mt-4 md:mt-0">
-              <p className="text-gray-500">{content.madeWith}</p>
+              <p className="text-slate-500 dark:text-slate-500">{content.madeWith}</p>
               {/* <button
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"
@@ -196,7 +202,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </Motion.div>
     </footer>
   );
 }

@@ -126,14 +126,27 @@
     }
 
     .btn-pdf {
-      margin-top: 8px;
-      padding: 7px 14px;
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 52px;
+      height: 52px;
       background: var(--accent);
       color: #fff;
       border: 0;
-      border-radius: 4px;
-      font-size: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.45);
+      transition: background 0.2s, transform 0.15s;
+      z-index: 999;
+    }
+
+    .btn-pdf:hover {
+      background: #1d4ed8;
+      transform: scale(1.08);
     }
 
     .summary {
@@ -270,9 +283,12 @@
         <div><strong>GitHub:</strong> <a href="https://github.com/lokogam">lokogam</a></div>
         <div><strong>Portfolio:</strong> <a href="https://bit.ly/Duvan-Gamboa">bit.ly/Duvan-Gamboa</a></div>
         <div><strong>Location:</strong> Colombia</div>
-        <button class="btn-pdf no-print" onclick="window.print()">Save as PDF</button>
       </div>
     </div>
+
+    <button class="btn-pdf no-print" onclick="window.print()" title="Save as PDF">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
 
     <div class="summary">
       Software Technologist with 4+ years of experience in Laravel, React, Vue, Node.js, PHP, MySQL, and Docker. Focused on REST APIs, systems optimization, process automation, and cloud-enabled solutions. I have contributed to the development, maintenance, and improvement of web, educational, and administrative platforms, delivering gains in performance, scalability, integrations, and production support. I adapt quickly to new environments, collaborate effectively with multidisciplinary teams, and stay focused on clean code, best practices, and business-oriented solutions. Available for remote, hybrid, on-site, or freelance work.

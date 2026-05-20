@@ -7,6 +7,14 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentIndex, setCurrentIndex] = useState(0);
   const Motion = motion;
+  const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+
+  const buildAssetUrl = (path) => {
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    return `${basePath}${normalizedPath}`;
+  };
+
+  const placeholderImage = buildAssetUrl("/projects/placeholder.avif");
 
   // Contenido traducible
   const content = {
@@ -34,7 +42,7 @@ export default function Projects() {
         language === "es"
           ? "Aplicación web con Laravel para gestionar concursos de automóviles. Incluye gestión de departamentos, ciudades, participantes y ganadores."
           : "Laravel web application for managing automobile contests. Includes departments, cities, participants and winners management.",
-      image: "/projects/automobiles-concurso1.png",
+      image: "/projects/automobiles-concurso1.avif",
       tags: ["Laravel", "MySQL", "TailwindCSS", "Docker"],
       category: "laravel",
       demoUrl: null,
@@ -47,7 +55,7 @@ export default function Projects() {
         language === "es"
           ? "Sistema de gestión de transacciones con Stripe. Implementa webhooks, simulación de pagos y gestión de saldos."
           : "Stripe transaction management system. Implements webhooks, payment simulation and balance management.",
-      image: "/projects/stripe-wallet.png",
+      image: "/projects/stripe-wallet.avif",
       tags: ["Laravel", "Stripe API", "MySQL", "Docker"],
       category: "laravel",
       demoUrl: null,
@@ -60,7 +68,7 @@ export default function Projects() {
         language === "es"
           ? "Aplicación para gestionar cócteles consumiendo TheCocktailDB API. Incluye favoritos y CRUD completo."
           : "Cocktail management app fetching TheCocktailDB API. Includes favorites and full CRUD functionality.",
-      image: "/projects/cocktail-app.png",
+      image: "/projects/cocktail-app.avif",
       tags: ["Laravel", "Vue.js", "MySQL", "TailwindCSS"],
       category: "fullstack",
       demoUrl: null,
@@ -73,7 +81,7 @@ export default function Projects() {
         language === "es"
           ? "Sistema CRUD para gestión de catálogo de productos con ASP.NET Core y React."
           : "Product catalog CRUD system with ASP.NET Core and React.",
-      image: "/projects/product-catalog.jpg",
+      image: "/projects/product-catalog.avif",
       tags: ["ASP.NET Core", "React", "MySQL", "Docker"],
       category: "dotnet",
       demoUrl: null,
@@ -86,7 +94,7 @@ export default function Projects() {
         language === "es"
           ? "Aplicación web con React y Laravel que consume la API de Rick y Morty. Incluye búsqueda, filtros y favoritos."
           : "Web app with React and Laravel fetching Rick and Morty API. Includes search, filters, and favorites.",
-      image: "/projects/rick-and-morty.jpg",
+      image: "/projects/rick-and-morty.avif",
       tags: ["React", "Laravel", "API REST", "Docker"],
       category: "fullstack",
       demoUrl: null,
@@ -99,7 +107,7 @@ export default function Projects() {
         language === "es"
           ? "Sistema de reserva de libros con autenticación, filtros por categoría y gestión de reservas."
           : "Book reservation system with authentication, category filters and reservation management.",
-      image: "/projects/book-reservation.jpg",
+      image: "/projects/book-reservation.avif",
       tags: ["Laravel", "Vue.js", "MySQL", "Docker"],
       category: "fullstack",
       demoUrl: null,
@@ -112,7 +120,7 @@ export default function Projects() {
         language === "es"
           ? "Aplicación bancaria para venta de productos financieros con roles de administrador y asesor."
           : "Banking app for financial products sales with admin and advisor roles.",
-      image: "/projects/konecta-bank.jpg",
+      image: "/projects/konecta-bank.avif",
       tags: ["Node.js", "React", "MySQL", "Docker"],
       category: "fullstack",
       demoUrl: null,
@@ -125,7 +133,7 @@ export default function Projects() {
         language === "es"
           ? "Sistema de gestión hotelera para Hoteles Decameron con información de habitaciones y acomodaciones."
           : "Hotel management system for Decameron Hotels with room and accommodation information.",
-      image: "/projects/decameron-hotel.jpg",
+      image: "/projects/decameron-hotel.avif",
       tags: ["Laravel", "Vue.js", "PostgreSQL", "Docker"],
       category: "fullstack",
       demoUrl: null,
@@ -138,7 +146,7 @@ export default function Projects() {
         language === "es"
           ? "Plataforma e-commerce con microservicios en Laravel, AWS y frontend en Vue.js."
           : "E-commerce platform with Laravel microservices, AWS and Vue.js frontend.",
-      image: "/projects/ecom-core.jpg",
+      image: "/projects/ecom-core.avif",
       tags: ["Laravel", "Vue.js", "AWS", "Microservices"],
       category: "fullstack",
       demoUrl: null,
@@ -151,7 +159,7 @@ export default function Projects() {
         language === "es"
           ? "API CRUD para gestión de compañías, contactos y notas con autenticación JWT y relaciones polimórficas."
           : "CRUD API for companies, contacts and notes management with JWT auth and polymorphic relations.",
-      image: "/projects/companies-api.png",
+      image: "/projects/companies-api.avif",
       tags: ["Laravel", "JWT", "MySQL", "Swagger", "Docker"],
       category: "laravel",
       demoUrl: null,
@@ -240,10 +248,16 @@ export default function Projects() {
                 {/* Imagen del proyecto */}
                 <div className="h-48 overflow-hidden">
                   <img
-                    src={`${import.meta.env.VITE_BASE_URL}/${project.image}`}
+                    src={buildAssetUrl(project.image)}
                     alt={project.title}
                     className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                     loading="lazy"
+                    onError={(e) => {
+                      const image = e.currentTarget;
+                      if (image.dataset.fallbackApplied === "true") return;
+                      image.dataset.fallbackApplied = "true";
+                      image.src = placeholderImage;
+                    }}
                   />
                 </div>
 

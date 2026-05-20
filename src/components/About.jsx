@@ -2,10 +2,77 @@
 import React from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { motion } from "framer-motion";
+import {
+  SiDocker,
+  SiLaravel,
+  SiMysql,
+  SiNodedotjs,
+  SiPython,
+  SiReact,
+  SiVuedotjs,
+} from "react-icons/si";
+import { FaAws, FaBrain } from "react-icons/fa6";
 
 export default function About() {
   const { language } = useLanguage();
   const Motion = motion;
+
+  const technologyBadges = [
+    {
+      name: "Laravel",
+      Icon: SiLaravel,
+      iconColor: "text-red-600",
+      className: "bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-100",
+    },
+    {
+      name: "Vue",
+      Icon: SiVuedotjs,
+      iconColor: "text-emerald-600",
+      className: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-100",
+    },
+    {
+      name: "React",
+      Icon: SiReact,
+      iconColor: "text-cyan-500",
+      className: "bg-cyan-100 text-cyan-800 dark:bg-cyan-950/60 dark:text-cyan-100",
+    },
+    {
+      name: "Node.js",
+      Icon: SiNodedotjs,
+      iconColor: "text-lime-600",
+      className: "bg-lime-100 text-lime-800 dark:bg-lime-950/60 dark:text-lime-100",
+    },
+    {
+      name: "Docker",
+      Icon: SiDocker,
+      iconColor: "text-sky-600",
+      className: "bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-100",
+    },
+    {
+      name: "MySQL",
+      Icon: SiMysql,
+      iconColor: "text-amber-700",
+      className: "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-100",
+    },
+    {
+      name: "AWS",
+      Icon: FaAws,
+      iconColor: "text-orange-500",
+      className: "bg-orange-100 text-orange-800 dark:bg-orange-950/60 dark:text-orange-100",
+    },
+    {
+      name: "Python",
+      Icon: SiPython,
+      iconColor: "text-violet-700",
+      className: "bg-violet-100 text-violet-800 dark:bg-violet-950/60 dark:text-violet-100",
+    },
+    {
+      name: "Inteligencia Artificial",
+      Icon: FaBrain,
+      iconColor: "text-fuchsia-700",
+      className: "bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-950/60 dark:text-fuchsia-100",
+    },
+  ];
 
   // Contenido traducible
   const content = {
@@ -264,26 +331,21 @@ export default function About() {
               {content.profileText}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {[
-                "Laravel",
-                "Vue",
-                "React",
-                "Node.js",
-                "Docker",
-                "MySQL",
-                "AWS",
-                "Python",
-                "Inteligencia Artificial",
-              ].map((tech) => (
+              {technologyBadges.map((tech, index) => (
                 <Motion.span
-                  key={tech}
-                  initial={{ opacity: 0, y: 8 }}
+                  key={tech.name}
+                  initial={{ opacity: 0, y: 10, scale: 0.96 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.25 }}
-                  className="rounded-full bg-cyan-100 px-3 py-1 text-sm text-cyan-800 dark:bg-cyan-900/60 dark:text-cyan-100"
+                  whileHover={{ y: -3, scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.28, delay: index * 0.05, type: "spring", stiffness: 260, damping: 20 }}
+                  className={`flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium shadow-sm ring-1 ring-black/5 backdrop-blur-sm ${tech.className}`}
                 >
-                  {tech}
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/70 shadow-sm dark:bg-black/20">
+                    <tech.Icon className={`h-4 w-4 ${tech.iconColor}`} aria-hidden="true" />
+                  </span>
+                  <span>{tech.name}</span>
                 </Motion.span>
               ))}
             </div>

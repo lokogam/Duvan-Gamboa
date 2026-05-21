@@ -1,14 +1,18 @@
+import { useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { motion } from "framer-motion";
+import { gsap, ScrollTrigger, useGSAP } from "../lib/gsapSetup";
 
 export default function Hero() {
   const { language } = useLanguage();
   const Motion = motion;
+  const sectionRef = useRef(null);
   const baseUrl = `${import.meta.env.BASE_URL || "/"}`.replace(/\/?$/, "/");
-  const reveal = {
-    hidden: { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0 },
-  };
+  const isLowPowerDevice =
+    typeof window !== "undefined" &&
+    (window.matchMedia("(pointer: coarse)").matches ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+      (typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4));
 
   // Textos traducibles
   const content = {
@@ -23,9 +27,189 @@ export default function Hero() {
     ctaSecondary: language === "es" ? "Contáctame" : "Contact Me",
   };
 
+  useGSAP(
+    () => {
+      const q = gsap.utils.selector(sectionRef);
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(q(".gsap-hero-copy > *"), { autoAlpha: 1, y: 0, clearProps: "all" });
+        gsap.set(q(".gsap-horizontal-line"), { clearProps: "transform" });
+        return;
+      }
+
+      gsap.set(q(".gsap-hero-avatar"), { clearProps: "visibility", opacity: 1 });
+      gsap.set(q(".gsap-hero-copy > *"), { autoAlpha: 1, y: 0, clearProps: "visibility" });
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+
+      tl.fromTo(
+        q(".gsap-hero-avatar"),
+        {
+          opacity: 0,
+          y: 30,
+          scale: 0.92,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+        },
+      )
+        .from(
+          q(".gsap-hero-copy > *"),
+          {
+            autoAlpha: 0,
+            y: 18,
+            stagger: 0.08,
+            duration: 0.5,
+          },
+          "-=0.35",
+        )
+        .from(
+          q(".gsap-hero-social"),
+          {
+            autoAlpha: 0,
+            y: 12,
+            stagger: 0.05,
+            duration: 0.35,
+          },
+          "-=0.25",
+        );
+
+      if (!isLowPowerDevice) {
+        gsap.to(q(".gsap-hero-avatar img"), {
+          y: -10,
+          duration: 2.8,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      }
+
+      if (!isLowPowerDevice) {
+        gsap.to(q(".gsap-hero-title"), {
+          backgroundPositionX: "200%",
+          duration: 4.2,
+          repeat: -1,
+          ease: "none",
+        });
+      }
+
+      const horizontalLines = q(".gsap-horizontal-line");
+      horizontalLines.forEach((line, index) => {
+        gsap.fromTo(
+          line,
+          { xPercent: index % 2 === 0 ? -3 : 3 },
+          {
+            xPercent: index % 2 === 0 ? 3 : -3,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          }
+        );
+      });
+
+      ScrollTrigger.refresh();
+
+      const sparks = q(".gsap-spark");
+      if (!isLowPowerDevice && sparks.length) {
+        gsap.fromTo(
+          sparks,
+          { autoAlpha: 0.15, scale: 0.6 },
+          {
+            autoAlpha: 0.95,
+            scale: 1,
+            duration: 1.1,
+            stagger: 0.16,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          }
+        );
+
+        gsap.to(sparks, {
+          y: "random(-18, 18)",
+          x: "random(-12, 12)",
+          duration: 2.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          stagger: 0.08,
+        });
+      }
+
+      const canUsePointer = window.matchMedia("(pointer: fine)").matches;
+      const heroElement = sectionRef.current;
+      const avatarElement = q(".gsap-hero-avatar")[0];
+      const copyElement = q(".gsap-hero-copy")[0];
+      const leftBlob = q(".gsap-blob-left")[0];
+      const rightBlob = q(".gsap-blob-right")[0];
+
+      if (isLowPowerDevice || !canUsePointer || !heroElement || !avatarElement || !copyElement || !leftBlob || !rightBlob) {
+        return;
+      }
+
+      const avatarXTo = gsap.quickTo(avatarElement, "x", { duration: 0.5, ease: "power3.out" });
+      const avatarYTo = gsap.quickTo(avatarElement, "y", { duration: 0.5, ease: "power3.out" });
+      const avatarRotXTo = gsap.quickTo(avatarElement, "rotationX", { duration: 0.45, ease: "power3.out" });
+      const avatarRotYTo = gsap.quickTo(avatarElement, "rotationY", { duration: 0.45, ease: "power3.out" });
+      const copyXTo = gsap.quickTo(copyElement, "x", { duration: 0.7, ease: "power3.out" });
+      const copyYTo = gsap.quickTo(copyElement, "y", { duration: 0.7, ease: "power3.out" });
+      const leftBlobXTo = gsap.quickTo(leftBlob, "x", { duration: 0.9, ease: "power3.out" });
+      const leftBlobYTo = gsap.quickTo(leftBlob, "y", { duration: 0.9, ease: "power3.out" });
+      const rightBlobXTo = gsap.quickTo(rightBlob, "x", { duration: 1, ease: "power3.out" });
+      const rightBlobYTo = gsap.quickTo(rightBlob, "y", { duration: 1, ease: "power3.out" });
+
+      const onMove = (event) => {
+        const rect = heroElement.getBoundingClientRect();
+        const offsetX = (event.clientX - rect.left) / rect.width - 0.5;
+        const offsetY = (event.clientY - rect.top) / rect.height - 0.5;
+
+        avatarXTo(offsetX * 14);
+        avatarYTo(offsetY * 14);
+        avatarRotXTo(offsetY * -8);
+        avatarRotYTo(offsetX * 10);
+        copyXTo(offsetX * -8);
+        copyYTo(offsetY * -6);
+        leftBlobXTo(offsetX * -22);
+        leftBlobYTo(offsetY * -18);
+        rightBlobXTo(offsetX * 22);
+        rightBlobYTo(offsetY * 18);
+      };
+
+      const onLeave = () => {
+        avatarXTo(0);
+        avatarYTo(0);
+        avatarRotXTo(0);
+        avatarRotYTo(0);
+        copyXTo(0);
+        copyYTo(0);
+        leftBlobXTo(0);
+        leftBlobYTo(0);
+        rightBlobXTo(0);
+        rightBlobYTo(0);
+      };
+
+      heroElement.addEventListener("mousemove", onMove);
+      heroElement.addEventListener("mouseleave", onLeave);
+
+      return () => {
+        heroElement.removeEventListener("mousemove", onMove);
+        heroElement.removeEventListener("mouseleave", onLeave);
+      };
+    },
+    { scope: sectionRef, dependencies: [language, isLowPowerDevice], revertOnUpdate: true },
+  );
+
   return (
     <section
       id="hero"
+      ref={sectionRef}
       className="relative overflow-hidden py-24"
     >
       {/* Efecto de burbujas decorativas (opcional) */}
@@ -35,8 +219,13 @@ export default function Hero() {
       </div> */}
 
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-16 top-16 h-52 w-52 rounded-full bg-cyan-300/25 blur-3xl" />
-        <div className="absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
+        <div className="gsap-blob-left absolute -left-16 top-16 h-52 w-52 rounded-full bg-cyan-300/25 blur-3xl" />
+        <div className="gsap-blob-right absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
+        <span className="gsap-spark absolute left-[12%] top-[22%] h-2 w-2 rounded-full bg-cyan-300/80 blur-[1px]" />
+        <span className="gsap-spark absolute left-[22%] top-[36%] h-1.5 w-1.5 rounded-full bg-white/80 blur-[1px]" />
+        <span className="gsap-spark absolute right-[18%] top-[18%] h-2 w-2 rounded-full bg-amber-300/90 blur-[1px]" />
+        <span className="gsap-spark absolute right-[26%] top-[42%] h-1.5 w-1.5 rounded-full bg-cyan-200/90 blur-[1px]" />
+        <span className="gsap-spark absolute left-[48%] bottom-[18%] h-2 w-2 rounded-full bg-white/70 blur-[1px]" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4">
@@ -44,11 +233,7 @@ export default function Hero() {
           {/* Imagen de perfil */}
           {/* Reemplaza profile.jpg con tu imagen (600x600 px para mejor calidad). */}
           <Motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
-            className="h-48 w-48 flex-shrink-0 md:h-64 md:w-64"
+            className="gsap-hero-avatar h-48 w-48 flex-shrink-0 md:h-64 md:w-64"
           >
             <img
               // src="./profile.jpg"
@@ -62,18 +247,17 @@ export default function Hero() {
 
           {/* Texto y botones */}
           <Motion.div
-            className="text-center md:text-left"
-            variants={reveal}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.5, delay: 0.08 }}
+            className="gsap-hero-copy text-center md:text-left"
           >
-            <h1 className="mb-2 text-4xl font-bold text-slate-900 dark:text-white md:text-6xl">
-              Duvan Andrés Gamboa
+            <h1 className="gsap-hero-title gsap-mask-title mb-2 text-4xl font-bold text-slate-900 dark:text-white md:text-6xl">
+              <span className="gsap-horizontal-viewport">
+                <span className="gsap-horizontal-line">Duvan Andrés Gamboa</span>
+              </span>
             </h1>
-            <h2 className="mb-4 text-2xl text-slate-700 dark:text-slate-200 md:text-3xl">
-              {content.title}
+            <h2 className="gsap-mask-title mb-4 text-2xl text-slate-700 dark:text-slate-200 md:text-3xl">
+              <span className="gsap-horizontal-viewport">
+                <span className="gsap-horizontal-line">{content.title}</span>
+              </span>
             </h2>
             <p className="mb-8 max-w-2xl text-lg text-slate-600 dark:text-slate-300 md:text-xl">
               {content.tagline}
@@ -138,7 +322,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -2 }}
-                className="flex items-center gap-2 rounded-lg bg-white/60 px-3 py-2 text-sm backdrop-blur-sm transition-colors hover:text-slate-900 dark:bg-slate-800/60 dark:hover:text-white"
+                className="gsap-hero-social flex items-center gap-2 rounded-lg bg-white/60 px-3 py-2 text-sm backdrop-blur-sm transition-colors hover:text-slate-900 dark:bg-slate-800/60 dark:hover:text-white"
                 aria-label="Perfil de LinkedIn"
               >
                 <svg
@@ -156,7 +340,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -2 }}
-                className="flex items-center gap-2 rounded-lg bg-white/60 px-3 py-2 text-sm backdrop-blur-sm transition-colors hover:text-slate-900 dark:bg-slate-800/60 dark:hover:text-white"
+                className="gsap-hero-social flex items-center gap-2 rounded-lg bg-white/60 px-3 py-2 text-sm backdrop-blur-sm transition-colors hover:text-slate-900 dark:bg-slate-800/60 dark:hover:text-white"
                 aria-label="Perfil de GitHub"
               >
                 <svg

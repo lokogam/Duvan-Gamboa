@@ -1,7 +1,8 @@
 // // src/components/About.jsx
-import React from "react";
+import React, { useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { motion } from "framer-motion";
+import { gsap, SplitText, useGSAP } from "../lib/gsapSetup";
 import {
   SiDocker,
   SiLaravel,
@@ -16,6 +17,12 @@ import { FaAws, FaBrain } from "react-icons/fa6";
 export default function About() {
   const { language } = useLanguage();
   const Motion = motion;
+  const sectionRef = useRef(null);
+  const isLowPowerDevice =
+    typeof window !== "undefined" &&
+    (window.matchMedia("(pointer: coarse)").matches ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+      (typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4));
 
   const technologyBadges = [
     {
@@ -308,41 +315,141 @@ export default function About() {
     },
   ];
 
+  useGSAP(
+    () => {
+      const q = gsap.utils.selector(sectionRef);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(q(".gsap-split-text, .gsap-split-button"), { clearProps: "all" });
+        return;
+      }
+
+      const splitInstances = [];
+      q(".gsap-split-text").forEach((target) => {
+        const textLength = target.textContent?.trim().length ?? 0;
+        const isHeading = /^H[1-6]$/.test(target.tagName);
+        const useCharSplit = !isLowPowerDevice && (isHeading || textLength <= 90);
+        const split = SplitText.create(target, {
+          type: useCharSplit ? "words,chars" : "words",
+          mask: useCharSplit ? "chars" : "words",
+          charsClass: "gsap-char",
+        });
+        splitInstances.push(split);
+
+        const units = useCharSplit ? split.chars : split.words;
+        gsap.from(units, {
+          yPercent: useCharSplit ? 105 : 35,
+          autoAlpha: 0,
+          ease: "power3.out",
+          duration: useCharSplit ? 0.55 : 0.42,
+          stagger: useCharSplit ? 0.012 : 0.02,
+          scrollTrigger: {
+            trigger: target,
+            start: "top 88%",
+            once: true,
+          },
+        });
+      });
+
+      q(".gsap-split-button").forEach((target) => {
+        const split = SplitText.create(target, {
+          type: "words",
+          wordsClass: "gsap-badge-word++",
+          ignore: ".gsap-split-ignore,svg,path",
+        });
+        splitInstances.push(split);
+
+        gsap.from(split.words, {
+          y: isLowPowerDevice ? -14 : -38,
+          autoAlpha: 0,
+          rotation: isLowPowerDevice ? 0 : "random(-35, 35)",
+          transformOrigin: "50% 100%",
+          ease: isLowPowerDevice ? "power2.out" : "back.out(1.6)",
+          duration: isLowPowerDevice ? 0.45 : 0.78,
+          stagger: isLowPowerDevice ? 0.03 : 0.08,
+          scrollTrigger: {
+            trigger: target,
+            start: "top 90%",
+            once: true,
+          },
+        });
+      });
+
+      // Match only direct badge items to avoid animating nested elements.
+      const techBadges = q(".gsap-about-tech-list > .gsap-about-tech");
+      const listeners = [];
+      if (!isLowPowerDevice && window.matchMedia("(pointer: fine)").matches) {
+        techBadges.forEach((badge) => {
+        const rotXTo = gsap.quickTo(badge, "rotationX", { duration: 0.25, ease: "power2.out" });
+        const rotYTo = gsap.quickTo(badge, "rotationY", { duration: 0.25, ease: "power2.out" });
+        const xTo = gsap.quickTo(badge, "x", { duration: 0.25, ease: "power2.out" });
+        const yTo = gsap.quickTo(badge, "y", { duration: 0.25, ease: "power2.out" });
+
+        const onMove = (event) => {
+          const rect = badge.getBoundingClientRect();
+          const relX = (event.clientX - rect.left) / rect.width - 0.5;
+          const relY = (event.clientY - rect.top) / rect.height - 0.5;
+          rotXTo(relY * -10);
+          rotYTo(relX * 12);
+          xTo(relX * 4);
+          yTo(relY * 4);
+        };
+
+        const onLeave = () => {
+          rotXTo(0);
+          rotYTo(0);
+          xTo(0);
+          yTo(0);
+        };
+
+          badge.addEventListener("mousemove", onMove);
+          badge.addEventListener("mouseleave", onLeave);
+          listeners.push({ badge, onMove, onLeave });
+        });
+      }
+
+      return () => {
+        listeners.forEach(({ badge, onMove, onLeave }) => {
+          badge.removeEventListener("mousemove", onMove);
+          badge.removeEventListener("mouseleave", onLeave);
+        });
+        splitInstances.forEach((split) => split.revert());
+      };
+    },
+    { scope: sectionRef, dependencies: [language, isLowPowerDevice], revertOnUpdate: true }
+  );
+
   return (
-    <section id="about" className="py-20 bg-transparent">
+    <section id="about" ref={sectionRef} className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
-        <h2 className="mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">
+        <h2 className="gsap-split-text mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">
           {content.title}
         </h2>
 
         <div className="max-w-4xl mx-auto">
           {/* Sección de Perfil */}
           <Motion.div
-            className="mb-12"
+            className="gsap-about-block mb-12"
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.4 }}
           >
-            <h3 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
+            <h3 className="gsap-split-text mb-4 text-xl font-semibold text-slate-900 dark:text-white">
               {content.profileTitle}
             </h3>
-            <p className="whitespace-pre-line text-slate-600 dark:text-slate-300">
+            <p className="gsap-split-text whitespace-pre-line text-slate-600 dark:text-slate-300">
               {content.profileText}
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {technologyBadges.map((tech, index) => (
+            <div className="gsap-about-tech-list mt-6 flex flex-wrap gap-2">
+              {technologyBadges.map((tech) => (
                 <Motion.span
                   key={tech.name}
-                  initial={{ opacity: 0, y: 10, scale: 0.96 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
                   whileHover={{ y: -3, scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.28, delay: index * 0.05, type: "spring", stiffness: 260, damping: 20 }}
-                  className={`flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium shadow-sm ring-1 ring-black/5 backdrop-blur-sm ${tech.className}`}
+                  transition={{ duration: 0.2 }}
+                  className={`gsap-about-tech gsap-split-button gsap-ignore-nested flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium shadow-sm ring-1 ring-black/5 backdrop-blur-sm ${tech.className}`}
                 >
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/70 shadow-sm dark:bg-black/20">
+                  <span className="gsap-split-ignore flex h-6 w-6 items-center justify-center rounded-full bg-white/70 shadow-sm dark:bg-black/20">
                     <tech.Icon className={`h-4 w-4 ${tech.iconColor}`} aria-hidden="true" />
                   </span>
                   <span>{tech.name}</span>
@@ -352,8 +459,8 @@ export default function About() {
           </Motion.div>
 
           {/* Sección de Experiencia */}
-          <div className="mb-12">
-            <h3 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
+          <div className="gsap-about-block mb-12">
+            <h3 className="gsap-split-text mb-6 text-xl font-semibold text-slate-900 dark:text-white">
               {content.experienceTitle}
             </h3>
             <div className="space-y-8">
@@ -364,17 +471,17 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.32, delay: index * 0.04 }}
-                  className="glass-card rounded-lg p-6 shadow-md transition-shadow hover:shadow-lg"
+                  className="gsap-about-card glass-card rounded-lg p-6 shadow-md transition-shadow hover:shadow-lg"
                 >
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
+                  <h4 className="gsap-split-text text-lg font-semibold text-slate-900 dark:text-white">
                     {exp.role} - {exp.company}
                   </h4>
-                  <p className="mb-4 text-slate-500 dark:text-slate-400">
+                  <p className="gsap-split-text mb-4 text-slate-500 dark:text-slate-400">
                     {exp.period}
                   </p>
                   <ul className="list-inside list-disc space-y-2 text-slate-600 dark:text-slate-300">
                     {exp.highlights.map((item, i) => (
-                      <li key={i}>{item}</li>
+                      <li key={i} className="gsap-split-text">{item}</li>
                     ))}
                   </ul>
                 </Motion.div>
@@ -383,8 +490,8 @@ export default function About() {
           </div>
 
           {/* Sección de Educación */}
-          <div>
-            <h3 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
+          <div className="gsap-about-block">
+            <h3 className="gsap-split-text mb-6 text-xl font-semibold text-slate-900 dark:text-white">
               {content.educationTitle}
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
@@ -395,15 +502,15 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.28, delay: index * 0.06 }}
-                  className="glass-card rounded-lg p-6 shadow-md"
+                  className="gsap-about-card glass-card rounded-lg p-6 shadow-md"
                 >
-                  <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
+                  <h4 className="gsap-split-text text-lg font-semibold text-slate-900 dark:text-white">
                     {edu.degree}
                   </h4>
-                  <p className="mt-1 text-slate-600 dark:text-slate-300">
+                  <p className="gsap-split-text mt-1 text-slate-600 dark:text-slate-300">
                     {edu.institution}
                   </p>
-                  <p className="mt-2 text-slate-500 dark:text-slate-400">
+                  <p className="gsap-split-text mt-2 text-slate-500 dark:text-slate-400">
                     {edu.period}
                   </p>
                 </Motion.div>

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { motion } from "framer-motion";
+import { gsap, useGSAP } from "../lib/gsapSetup";
 
 export default function Projects() {
   const { language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentIndex, setCurrentIndex] = useState(0);
   const Motion = motion;
+  const sectionRef = useRef(null);
   const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
 
   const buildAssetUrl = (path) => {
@@ -31,6 +33,10 @@ export default function Projects() {
     },
     ctaDemo: language === "es" ? "Ver Demo" : "View Demo",
     ctaCode: language === "es" ? "Código" : "Code",
+    noProjects:
+      language === "es"
+        ? "No hay proyectos en esta categoría por ahora."
+        : "There are no projects in this category yet.",
   };
 
   // Proyectos actualizados
@@ -197,10 +203,64 @@ export default function Projects() {
     setCurrentIndex(0);
   }, [activeFilter]);
 
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+
+      const q = gsap.utils.selector(sectionRef);
+
+      gsap.from(q(".gsap-projects-title"), {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.55,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+        },
+      });
+
+      const filters = q(".gsap-project-filter");
+      if (filters.length) {
+        gsap.from(filters, {
+          autoAlpha: 0,
+          y: 12,
+          duration: 0.35,
+          stagger: 0.04,
+          ease: "power2.out",
+        });
+      }
+
+      const cards = q(".gsap-project-card");
+      if (cards.length) {
+        gsap.fromTo(
+          cards,
+          { autoAlpha: 0, y: 26, scale: 0.98 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.45,
+            stagger: 0.07,
+            ease: "power2.out",
+            overwrite: "auto",
+          },
+        );
+      }
+    },
+    {
+      scope: sectionRef,
+      dependencies: [activeFilter, currentIndex, language],
+      revertOnUpdate: true,
+    },
+  );
+
   return (
-    <section id="projects" className="py-20 bg-transparent">
+    <section id="projects" ref={sectionRef} className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
-        <h2 className="mb-8 text-center text-3xl font-bold text-slate-900 dark:text-white">
+        <h2 className="gsap-mask-title gsap-projects-title mb-8 text-center text-3xl font-bold text-slate-900 dark:text-white">
           {content.title}
         </h2>
 
@@ -210,7 +270,7 @@ export default function Projects() {
               key={key}
               type="button"
               onClick={() => setActiveFilter(key)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+              className={`gsap-project-filter rounded-full px-4 py-2 text-sm font-medium transition-all ${
                 activeFilter === key
                   ? "bg-slate-900 text-white shadow-lg shadow-slate-900/25"
                   : "bg-white/70 text-slate-700 hover:bg-white dark:bg-slate-800/70 dark:text-slate-300"
@@ -243,7 +303,7 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="glass-card flex h-full flex-col overflow-hidden rounded-2xl shadow-lg shadow-slate-900/10 transition-transform duration-300 hover:-translate-y-1"
+                className="gsap-project-card glass-card flex h-full flex-col overflow-hidden rounded-2xl shadow-lg shadow-slate-900/10 transition-transform duration-300 hover:-translate-y-1"
               >
                 {/* Imagen del proyecto */}
                 <div className="h-48 overflow-hidden">
@@ -309,6 +369,12 @@ export default function Projects() {
               </Motion.div>
             ))}
           </div>
+
+          {visibleProjects.length === 0 && (
+            <div className="mx-auto mt-8 max-w-xl rounded-xl border border-slate-200 bg-white/80 px-6 py-5 text-center text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200">
+              {content.noProjects}
+            </div>
+          )}
 
           {/* Botón siguiente */}
           <button

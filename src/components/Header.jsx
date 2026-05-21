@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
+import { gsap, ScrollTrigger, useGSAP } from '../lib/gsapSetup';
 
 export default function Header({ toggleDark, darkMode }) {
   const { language, toggleLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const headerRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   const Motion = motion;
 
   const FlagIcon = ({ code }) => {
@@ -60,12 +63,91 @@ export default function Header({ toggleDark, darkMode }) {
     { name: language === 'es' ? 'Contacto' : 'Contact', href: '#contact' },
   ];
 
+  useGSAP(
+    () => {
+      const headerElement = headerRef.current;
+      const menuElement = mobileMenuRef.current;
+      if (!headerElement || !menuElement) {
+        return;
+      }
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const q = gsap.utils.selector(headerRef);
+
+      if (prefersReducedMotion) {
+        gsap.set(menuElement, { clearProps: 'all', height: isMenuOpen ? 'auto' : 0, autoAlpha: isMenuOpen ? 1 : 0 });
+        gsap.set(headerElement, { y: 0 });
+        return;
+      }
+
+      gsap.fromTo(
+        q('.gsap-header-brand, .gsap-header-nav-link, .gsap-header-control'),
+        { autoAlpha: 0, y: -14 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.42,
+          ease: 'power3.out',
+          stagger: 0.05,
+        }
+      );
+
+      if (isMenuOpen) {
+        gsap.set(menuElement, { display: 'block' });
+        gsap.fromTo(
+          menuElement,
+          { height: 0, autoAlpha: 0 },
+          {
+            height: 'auto',
+            autoAlpha: 1,
+            duration: 0.32,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          }
+        );
+      } else {
+        gsap.to(menuElement, {
+          height: 0,
+          autoAlpha: 0,
+          duration: 0.24,
+          ease: 'power2.inOut',
+          overwrite: 'auto',
+        });
+      }
+
+      const hideOnScroll = ScrollTrigger.create({
+        start: 0,
+        end: 'max',
+        onUpdate: (self) => {
+          if (isMenuOpen) {
+            gsap.to(headerElement, { y: 0, duration: 0.2, overwrite: 'auto' });
+            return;
+          }
+
+          if (window.scrollY < 72 || self.direction === -1) {
+            gsap.to(headerElement, { y: 0, duration: 0.28, ease: 'power3.out', overwrite: 'auto' });
+          } else {
+            gsap.to(headerElement, { y: -96, duration: 0.28, ease: 'power3.out', overwrite: 'auto' });
+          }
+        },
+      });
+
+      return () => {
+        hideOnScroll.kill();
+      };
+    },
+    { scope: headerRef, dependencies: [language, isMenuOpen], revertOnUpdate: true }
+  );
+
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/40 bg-white/60 backdrop-blur-md dark:border-slate-700/40 dark:bg-slate-900/60">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 border-b border-slate-200/40 bg-white/60 backdrop-blur-md dark:border-slate-700/40 dark:bg-slate-900/60"
+    >
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           {/* Logo + Nombre */}
-          <div className="flex items-center gap-2 transition-transform hover:scale-105">
+          <div className="gsap-header-brand flex items-center gap-2 transition-transform hover:scale-105">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 font-bold text-white dark:bg-slate-100 dark:text-slate-900">
               DG
             </div>
@@ -102,7 +184,7 @@ export default function Header({ toggleDark, darkMode }) {
               <a
                 key={link.href}
                 href={link.href}
-                className="font-medium text-slate-700 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+                className="gsap-header-nav-link gsap-nav-link font-medium text-slate-700 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
               >
                 {link.name}
               </a>
@@ -113,7 +195,7 @@ export default function Header({ toggleDark, darkMode }) {
           <div className="hidden md:flex items-center gap-4">
             <button
               onClick={toggleLanguage}
-              className="ui-control"
+              className="gsap-header-control ui-control"
               aria-label="Toggle language"
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -132,7 +214,7 @@ export default function Header({ toggleDark, darkMode }) {
             </button>
             <button
               onClick={toggleDark}
-              className="ui-control ui-control--icon hover:rotate-180 duration-500"
+              className="gsap-header-control ui-control ui-control--icon hover:rotate-180 duration-500"
               aria-label="Toggle dark mode"
             >
               <ThemeIcon enabled={darkMode} />
@@ -141,7 +223,7 @@ export default function Header({ toggleDark, darkMode }) {
         </div>
 
         {/* Menú Mobile (Desplegable) */}
-        <div className={`md:hidden mt-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
+        <div ref={mobileMenuRef} className="md:hidden mt-4 overflow-hidden">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 px-4">
             {/* Enlaces */}
             <div className="flex flex-col space-y-3">

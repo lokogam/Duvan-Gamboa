@@ -1,27 +1,72 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
+import { gsap, useGSAP } from '../lib/gsapSetup';
 const ScrollToTopButton = () => {
   const { language } = useLanguage(); // Si usas el contexto de idioma
   const [isVisible, setIsVisible] = useState(false);
+  const buttonRef = useRef(null);
+  const pulseRef = useRef(null);
+  const visibleRef = useRef(false);
   const Motion = motion;
 
   useEffect(() => {
+    let rafId = 0;
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
+      if (rafId) {
+        return;
+      }
+
+      rafId = window.requestAnimationFrame(() => {
+        const nextVisible = window.pageYOffset > 300;
+        if (nextVisible !== visibleRef.current) {
+          visibleRef.current = nextVisible;
+          setIsVisible(nextVisible);
+        }
+        rafId = 0;
+      });
+    };
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
+    toggleVisibility();
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
       }
     };
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
+
+  useGSAP(
+    () => {
+      if (!isVisible || !pulseRef.current) {
+        return;
+      }
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.set(pulseRef.current, { autoAlpha: 0 });
+        return;
+      }
+
+      gsap.fromTo(
+        pulseRef.current,
+        { scale: 1, autoAlpha: 0.45 },
+        {
+          scale: 1.3,
+          autoAlpha: 0,
+          duration: 1.5,
+          ease: 'power1.out',
+          repeat: -1,
+        }
+      );
+    },
+    { scope: buttonRef, dependencies: [isVisible], revertOnUpdate: true }
+  );
 
   return (
     <AnimatePresence>
       {isVisible && (
         <Motion.button
+          ref={buttonRef}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           initial={{ opacity: 0, scale: 0.75, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -33,9 +78,8 @@ const ScrollToTopButton = () => {
           aria-label={language === "es" ? "Ir arriba" : "Back to top"}
         >
           <Motion.span
+            ref={pulseRef}
             className="absolute inset-0 rounded-full border border-white/25"
-            animate={{ scale: [1, 1.18], opacity: [0.5, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
           />
           <svg
             className="relative h-6 w-6"

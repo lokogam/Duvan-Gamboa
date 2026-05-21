@@ -94,13 +94,13 @@ export default function Skills() {
   return (
     <section id="skills" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
-        <h2 className="mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">
+        <h2 className="gsap-mask-title gsap-skills-title mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">
           {content.title}
         </h2>
 
         {/* Habilidades */}
         <div className="max-w-4xl mx-auto mb-16">
-          <h3 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
+          <h3 className="gsap-mask-title mb-6 text-xl font-semibold text-slate-900 dark:text-white">
             {content.skillsTitle}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -111,7 +111,7 @@ export default function Skills() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="glass-card rounded-xl p-6 shadow-md"
+                className="gsap-skill-card glass-card rounded-xl p-6 shadow-md"
               >
                 <h4 className="mb-4 text-lg font-semibold capitalize text-slate-900 dark:text-white">
                   {category}

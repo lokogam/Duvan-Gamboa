@@ -1,13 +1,15 @@
 // 📁 src/components/Contact.jsx
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
+import { gsap, useGSAP } from '../lib/gsapSetup';
 // https://dashboard.emailjs.com/admin/
 
 export default function Contact() {
   const { language } = useLanguage();
   const Motion = motion;
+  const sectionRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -93,14 +95,54 @@ export default function Contact() {
     }
   };
 
+  useGSAP(
+    () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+      }
+
+      const q = gsap.utils.selector(sectionRef);
+
+      gsap.from(q('.gsap-contact-title, .gsap-contact-subtitle'), {
+        autoAlpha: 0,
+        y: 16,
+        duration: 0.45,
+        stagger: 0.08,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          once: true,
+        },
+      });
+
+      const fields = q('.gsap-contact-field');
+      if (fields.length) {
+        gsap.from(fields, {
+          autoAlpha: 0,
+          y: 14,
+          duration: 0.4,
+          stagger: 0.05,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: fields[0],
+            start: 'top 84%',
+            once: true,
+          },
+        });
+      }
+    },
+    { scope: sectionRef, dependencies: [language], revertOnUpdate: true }
+  );
+
   return (
-    <section id="contact" className="py-20 bg-transparent">
+    <section id="contact" ref={sectionRef} className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+          <h2 className="gsap-mask-title gsap-contact-title text-3xl font-bold text-slate-900 dark:text-white">
             {content.title}
           </h2>
-          <p className="mt-2 text-slate-600 dark:text-slate-300">
+          <p className="gsap-contact-subtitle mt-2 text-slate-600 dark:text-slate-300">
             {content.subtitle}
           </p>
         </div>
@@ -118,7 +160,7 @@ export default function Contact() {
             >
               <form onSubmit={handleSubmit}>
                 <div className="space-y-6">
-                  <div>
+                  <div className="gsap-contact-field">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {content.form.name}
                     </label>
@@ -137,7 +179,7 @@ export default function Contact() {
                     )}
                   </div>
 
-                  <div>
+                  <div className="gsap-contact-field">
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {content.form.email}
                     </label>
@@ -157,7 +199,7 @@ export default function Contact() {
                   </div>
 
                   {/* sujeto */}
-                  <div>
+                  <div className="gsap-contact-field">
                     <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {content.form.subject}
                     </label>
@@ -176,7 +218,7 @@ export default function Contact() {
                     )}
                   </div>
 
-                  <div>
+                  <div className="gsap-contact-field">
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {content.form.message}
                     </label>
@@ -195,7 +237,7 @@ export default function Contact() {
                     )}
                   </div>
 
-                  <div>
+                  <div className="gsap-contact-field">
                     <button
                       type="submit"
                       disabled={isSubmitting}
@@ -211,7 +253,7 @@ export default function Contact() {
 
                   {submitStatus && (
                     <div
-                      className={`p-4 rounded-lg ${
+                      className={`gsap-contact-field p-4 rounded-lg ${
                         submitStatus === 'success'
                           ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100'
                           : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100'

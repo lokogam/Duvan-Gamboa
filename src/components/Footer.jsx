@@ -1,12 +1,14 @@
 
 
-import React from "react";
+import React, { useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { motion } from "framer-motion";
+import { gsap, useGSAP } from "../lib/gsapSetup";
 
 export default function Footer() {
   const { language } = useLanguage();
   const Motion = motion;
+  const footerRef = useRef(null);
 
   // Contenido traducible
   const content = {
@@ -73,8 +75,63 @@ export default function Footer() {
     },
   ];
 
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+
+      const q = gsap.utils.selector(footerRef);
+
+      gsap.from(q(".gsap-footer-card"), {
+        autoAlpha: 0,
+        y: 16,
+        duration: 0.45,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 88%",
+          once: true,
+        },
+      });
+
+      const social = q(".gsap-footer-social");
+      if (social.length) {
+        gsap.from(social, {
+          autoAlpha: 0,
+          y: 10,
+          duration: 0.35,
+          stagger: 0.05,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: social[0],
+            start: "top 92%",
+            once: true,
+          },
+        });
+      }
+
+      const quickLinksItems = q(".gsap-footer-link");
+      if (quickLinksItems.length) {
+        gsap.from(quickLinksItems, {
+          autoAlpha: 0,
+          x: -8,
+          duration: 0.35,
+          stagger: 0.04,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: quickLinksItems[0],
+            start: "top 94%",
+            once: true,
+          },
+        });
+      }
+    },
+    { scope: footerRef, dependencies: [language], revertOnUpdate: true }
+  );
+
   return (
-    <footer className="py-12 text-slate-700 dark:text-slate-300">
+    <footer ref={footerRef} className="py-12 text-slate-700 dark:text-slate-300">
       <Motion.div
         className="container mx-auto px-4"
         initial={{ opacity: 0, y: 16 }}
@@ -82,7 +139,7 @@ export default function Footer() {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.45 }}
       >
-        <div className="glass-card grid grid-cols-1 gap-8 rounded-2xl p-8 md:grid-cols-2 mb-8">
+        <div className="gsap-footer-card glass-card grid grid-cols-1 gap-8 rounded-2xl p-8 md:grid-cols-2 mb-8">
           {/* Columna 1: Descripción */}
           <div>
             <h3 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
@@ -97,7 +154,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -3, scale: 1.08 }}
-                  className="text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  className="gsap-footer-social text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -113,7 +170,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
-                <li key={link.name}>
+                <li key={link.name} className="gsap-footer-link">
                   <a
                     href={link.href}
                     className="transition-colors hover:text-slate-900 dark:hover:text-white"

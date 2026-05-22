@@ -1,28 +1,22 @@
-import { execSync, spawnSync } from "node:child_process";
+import { execSync } from "node:child_process";
 
 function run(cmd, { stdio = "pipe" } = {}) {
-  return execSync(cmd, {
+  const output = execSync(cmd, {
     stdio,
     encoding: "utf8",
-  }).trim();
-}
-
-function runInteractive(command, args) {
-  const result = spawnSync(command, args, {
-    stdio: "inherit",
-    shell: true,
   });
 
-  if (result.status !== 0) {
-    process.exit(result.status ?? 1);
-  }
+  return typeof output === "string" ? output.trim() : "";
 }
 
 function getNextVersion() {
-  const refs = run("git branch -a --list 'deploy/v*' 'remotes/origin/deploy/v*'");
+  const refs = run(
+    "git for-each-ref --format=\"%(refname:short)\" refs/heads/deploy refs/remotes/origin/deploy"
+  );
   const matches = refs
     .split("\n")
-    .map((line) => line.replace("*", "").trim())
+    .map((line) => line.trim())
+    .filter(Boolean)
     .map((line) => line.match(/deploy\/v(\d+)$/))
     .filter(Boolean)
     .map((match) => Number(match[1]));
@@ -57,8 +51,8 @@ function main() {
   run(`git branch ${deployBranch} ${baseCommit}`);
   run(`git push -u origin ${deployBranch}`, { stdio: "inherit" });
 
-  runInteractive("npm", ["run", "build"]);
-  runInteractive("npx", ["gh-pages", "-d", "dist", "-m", `deploy v${version}`]);
+  run("npm run build", { stdio: "inherit" });
+  run(`npx gh-pages -d dist -m "deploy v${version}"`, { stdio: "inherit" });
 
   run("git fetch origin gh-pages", { stdio: "inherit" });
   const ghPagesCommit = run("git rev-parse origin/gh-pages");

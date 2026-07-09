@@ -247,24 +247,26 @@ export default function Hero() {
 
           {/* Texto y botones */}
           <Motion.div
-            className="gsap-hero-copy text-center md:text-left"
+            className="gsap-hero-copy text-left"
           >
-            <h1 className="gsap-hero-title gsap-mask-title mb-2 text-4xl font-bold text-slate-900 dark:text-white md:text-6xl">
-              <span className="gsap-horizontal-viewport">
-                <span className="gsap-horizontal-line">Duvan Andrés Gamboa</span>
-              </span>
-            </h1>
-            <h2 className="gsap-mask-title mb-4 text-2xl text-slate-700 dark:text-slate-200 md:text-3xl">
-              <span className="gsap-horizontal-viewport">
-                <span className="gsap-horizontal-line">{content.title}</span>
-              </span>
-            </h2>
-            <p className="mb-8 max-w-2xl text-lg text-slate-600 dark:text-slate-300 md:text-xl">
+            <div className="flex flex-col items-start text-left">
+              <h1 className="gsap-hero-title gsap-mask-title mb-2 block text-4xl font-bold leading-none text-slate-900 dark:text-white md:text-6xl">
+                <span className="gsap-horizontal-viewport">
+                  <span className="gsap-horizontal-line">Duvan Andrés Gamboa</span>
+                </span>
+              </h1>
+              <h2 className="gsap-mask-title mb-4 block text-2xl leading-tight text-slate-700 dark:text-slate-200 md:text-3xl">
+                <span className="gsap-horizontal-viewport">
+                  <span className="gsap-horizontal-line">{content.title}</span>
+                </span>
+              </h2>
+            </div>
+            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300 md:text-xl">
               {content.tagline}
             </p>
 
             {/* Botones principales */}
-            <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-8">
+            <div className="flex flex-wrap items-start justify-start gap-4 mb-8">
               <Motion.a
                 href={`${baseUrl}cv-nuevo/${language === "es" ? "cv-es.html" : "cv-en.html"}`}
                 target="_blank"
@@ -286,7 +288,7 @@ export default function Hero() {
             </div>
 
             {/* Contacto rápido */}
-            <div className="flex flex-wrap justify-center gap-4 text-slate-600 dark:text-slate-300 md:justify-start">
+            <div className="flex flex-wrap items-start justify-start gap-4 text-slate-600 dark:text-slate-300">
               {/* <a
                 href="tel:+573156334898"
                 className="flex items-center gap-2 hover:text-white"

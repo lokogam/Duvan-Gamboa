@@ -10,6 +10,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import NewSiteModal from './components/NewSiteModal';
 
 function AppContent({ darkMode, setDarkMode }) {
   const { language } = useLanguage();
@@ -172,6 +173,7 @@ function AppContent({ darkMode, setDarkMode }) {
         </Motion.div>
       </AnimatePresence>
       <ScrollToTopButton />
+      <NewSiteModal />
     </div>
   );
 }

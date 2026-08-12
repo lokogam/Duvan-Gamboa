@@ -179,7 +179,7 @@ export default function Header({ toggleDark, darkMode }) {
           </div>
 
           {/* Menú de Navegación (Desktop) */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6 xl:gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -193,6 +193,17 @@ export default function Header({ toggleDark, darkMode }) {
 
           {/* Controles (Idioma + Dark Mode) */}
           <div className="hidden md:flex items-center gap-4">
+            <a
+              href="https://duvangamboa.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="gsap-header-nav-link gsap-header-control font-bold rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-2 text-xs text-white transition-transform hover:scale-105"
+            >
+              {language === 'es' ? 'Nuevo sitio' : 'New site'}
+              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6v6M10 14l10-10" />
+              </svg>
+            </a>
             <button
               onClick={toggleLanguage}
               className="gsap-header-control ui-control"
@@ -237,6 +248,18 @@ export default function Header({ toggleDark, darkMode }) {
                   {link.name}
                 </a>
               ))}
+              <a
+                href="https://duvangamboa.dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-2.5 text-sm font-bold text-white"
+              >
+                {language === 'es' ? 'Nuevo sitio' : 'New site'}
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6v6M10 14l10-10" />
+                </svg>
+              </a>
             </div>
             
             {/* Controles móviles */}
